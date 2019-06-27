@@ -3,7 +3,7 @@ package kr.co.torpedo.dataprocessor;
 import kr.co.torpedo.dataprocessor.config.ConfigReader;
 import kr.co.torpedo.dataprocessor.manager.FileManager;
 import kr.co.torpedo.dataprocessor.parser.JSONParser;
-import kr.co.torpedo.dataprocessor.processor.MemoryProcessor;
+import kr.co.torpedo.dataprocessor.processor.memory.MemoryProcessor;
 
 public class Main {
 

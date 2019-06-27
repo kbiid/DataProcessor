@@ -4,7 +4,7 @@ import kr.co.torpedo.dataprocessor.config.ConfigReader;
 import kr.co.torpedo.dataprocessor.manager.FileManager;
 import kr.co.torpedo.dataprocessor.parser.JSONParser;
 
-public class ProcessorCommon {
+public abstract class ProcessorCommon {
 	protected ConfigReader configReader;
 	protected FileManager fileManager;
 	protected JSONParser jsonParser;
@@ -35,4 +35,12 @@ public class ProcessorCommon {
 		return jsonParser;
 	}
 
+	public void setMinMaxIndex() {
+		minIndex = configReader.getDeleteIndexMin();
+		maxIndex = configReader.getDeleteIndexMax();
+	}
+	
+	public abstract void changeDataByIndexArray();
+	
+	public abstract void deleteDataByMinMaxIndex();
 }

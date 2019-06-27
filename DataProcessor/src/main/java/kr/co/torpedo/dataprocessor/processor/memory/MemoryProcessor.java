@@ -1,9 +1,10 @@
-package kr.co.torpedo.dataprocessor.processor;
+package kr.co.torpedo.dataprocessor.processor.memory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import kr.co.torpedo.dataprocessor.domain.User;
+import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
 
 public class MemoryProcessor extends ProcessorCommon {
 	private HashMap<Integer, User> userHashMap;
@@ -48,11 +49,7 @@ public class MemoryProcessor extends ProcessorCommon {
 		}
 	}
 
-	public void setMinMaxIndex() {
-		minIndex = configReader.getDeleteIndexMin();
-		maxIndex = configReader.getDeleteIndexMax();
-	}
-
+	@Override
 	public void changeDataByIndexArray() {
 		for (int i = 0; i < indexArray.length; i++) {
 			if (userHashMap.containsKey(indexArray[i])) {
@@ -61,6 +58,7 @@ public class MemoryProcessor extends ProcessorCommon {
 		}
 	}
 
+	@Override
 	public void deleteDataByMinMaxIndex() {
 		for (int i = minIndex; i <= maxIndex; i++) {
 			if (userHashMap.containsKey(i)) {

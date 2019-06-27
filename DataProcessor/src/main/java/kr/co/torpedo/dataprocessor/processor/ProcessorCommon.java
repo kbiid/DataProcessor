@@ -1,6 +1,9 @@
 package kr.co.torpedo.dataprocessor.processor;
 
+import java.util.ArrayList;
+
 import kr.co.torpedo.dataprocessor.config.ConfigReader;
+import kr.co.torpedo.dataprocessor.domain.User;
 import kr.co.torpedo.dataprocessor.manager.FileManager;
 import kr.co.torpedo.dataprocessor.parser.JSONParser;
 
@@ -8,9 +11,18 @@ public abstract class ProcessorCommon {
 	protected ConfigReader configReader;
 	protected FileManager fileManager;
 	protected JSONParser jsonParser;
+	protected ArrayList<User> userList;
 	protected int[] indexArray;
 	protected int minIndex,maxIndex;
 
+	public ProcessorCommon() {
+		userList = new ArrayList<>();
+	}
+	
+	public ArrayList<User> getUserList() {
+		return userList;
+	}
+	
 	public void setJsonParser(JSONParser jsonParser) {
 		this.jsonParser = jsonParser;
 	}

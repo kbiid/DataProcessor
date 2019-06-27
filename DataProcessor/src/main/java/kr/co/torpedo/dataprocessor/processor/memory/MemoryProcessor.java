@@ -1,6 +1,5 @@
 package kr.co.torpedo.dataprocessor.processor.memory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import kr.co.torpedo.dataprocessor.domain.User;
@@ -8,19 +7,14 @@ import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
 
 public class MemoryProcessor extends ProcessorCommon {
 	private HashMap<Integer, User> userHashMap;
-	private ArrayList<User> userList;
 
 	public MemoryProcessor() {
+		super();
 		userHashMap = new HashMap<>();
-		userList = new ArrayList<>();
 	}
 
 	public HashMap<Integer, User> getUserHashMap() {
 		return userHashMap;
-	}
-
-	public ArrayList<User> getUserList() {
-		return userList;
 	}
 
 	public void saveDataToHashMap() {

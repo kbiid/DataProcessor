@@ -1,9 +1,15 @@
 package kr.co.torpedo.dataprocessor.processor.db;
 
+import java.sql.Connection;
+
 import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
 
 public class JDBCProcessor extends ProcessorCommon {
 
+	public Connection connectToDB() {
+		return null;
+	}
+	
 	@Override
 	public void changeDataByIndexArray() {
 		// TODO Auto-generated method stub

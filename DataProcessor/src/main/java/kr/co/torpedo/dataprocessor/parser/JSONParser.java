@@ -26,8 +26,9 @@ public class JSONParser {
 		userList = new ArrayList<>();
 	}
 
-	public void setLogFile(File logFile) {
-		this.logFile = logFile;
+	public void setLogFile(String path) {
+		logFile = new File(path);
+//		this.logFile = logFile;
 	}
 
 	public void setUserList(ArrayList<User> userList) {

@@ -18,7 +18,7 @@ public class ConfigReader {
 	}
 
 	private void loadProp() {
-		try (InputStream inputStream = getClass().getResourceAsStream("config.properties") ) {
+		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.properties") ) {
 			properties.load(inputStream);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -35,12 +35,12 @@ public class ConfigReader {
 		return properties.get("processor.type").toString();
 	}
 
-	public int getDatafileDir() {
-		if (properties == null || !properties.containsKey("datafile.dir")) {
-//			ContentWriter.invalidFileLogger.error("properties가 null이거나 datafile.dir키가 없습니다.");
-			throw new NullPointerException("properties가 null이거나 datafile.dir키가 없습니다.");
+	public String getDatafilePath() {
+		if (properties == null || !properties.containsKey("datafile.path")) {
+//			ContentWriter.invalidFileLogger.error("properties가 null이거나 datafile.path키가 없습니다.");
+			throw new NullPointerException("properties가 null이거나 datafile.path키가 없습니다.");
 		}
-		return Integer.parseInt(properties.get("datafile.dir").toString());
+		return properties.get("datafile.path").toString();
 	}
 
 	public String getUpdateIndexesString() {
@@ -65,5 +65,13 @@ public class ConfigReader {
 			throw new NullPointerException("properties가 null이거나 data.deleteindex.max키가 없습니다.");
 		}
 		return Integer.parseInt(properties.get("data.deleteindex.max").toString());
+	}
+	
+	public String getLogFilePath() {
+		if (properties == null || !properties.containsKey("logfile.path")) {
+//			ContentWriter.invalidFileLogger.error("properties가 null이거나 logfile.path키가 없습니다.");
+			throw new NullPointerException("properties가 null이거나 logfile.path키가 없습니다.");
+		}
+		return properties.get("logfile.path").toString();
 	}
 }

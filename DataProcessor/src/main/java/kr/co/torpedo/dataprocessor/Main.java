@@ -1,0 +1,36 @@
+package kr.co.torpedo.dataprocessor;
+
+import kr.co.torpedo.dataprocessor.config.ConfigReader;
+import kr.co.torpedo.dataprocessor.manager.FileManager;
+import kr.co.torpedo.dataprocessor.parser.JSONParser;
+import kr.co.torpedo.dataprocessor.processor.MemoryProcessor;
+
+public class Main {
+
+	public static void main(String[] args) {
+		ConfigReader configReader = new ConfigReader();
+		FileManager fileManager = new FileManager();
+		JSONParser jsonParser = new JSONParser();
+		fileManager.makeDataFile(configReader.getDatafilePath());
+		jsonParser.setLogFile(configReader.getLogFilePath());
+
+		MemoryProcessor memory = new MemoryProcessor();
+		memory.setConfigReader(configReader);
+		memory.setFileManager(fileManager);
+		memory.setJsonParser(jsonParser);
+
+		memory.saveDataToHashMap();
+		memory.getJsonParser().setUserList(memory.getUserList());
+		memory.getJsonParser().selialize();
+
+		memory.setIndexArray();
+		memory.setMinMaxIndex();
+		memory.changeDataByIndexArray();
+		memory.deleteDataByMinMaxIndex();
+		
+		memory.setListByHashMap();
+		memory.getJsonParser().setUserList(memory.getUserList());
+		memory.getJsonParser().selialize();
+
+	}
+}

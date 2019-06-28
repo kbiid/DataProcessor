@@ -96,5 +96,33 @@
 			<version>5.4.2.Final</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.vibur/vibur-dbcp -->
+		<dependency>
+			<groupId>org.vibur</groupId>
+			<artifactId>vibur-dbcp</artifactId>
+			<version>22.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.vibur/vibur-object-pool -->
+		<dependency>
+			<groupId>org.vibur</groupId>
+			<artifactId>vibur-object-pool</artifactId>
+			<version>22.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.vibur/vibur-dbcp-hibernate5 -->
+		<dependency>
+			<groupId>org.vibur</groupId>
+			<artifactId>vibur-dbcp-hibernate5</artifactId>
+			<version>21.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.googlecode.concurrentlinkedhashmap/concurrentlinkedhashmap-lru -->
+		<dependency>
+			<groupId>com.googlecode.concurrentlinkedhashmap</groupId>
+			<artifactId>concurrentlinkedhashmap-lru</artifactId>
+			<version>1.4.2</version>
+		</dependency>
+
 	</dependencies>
 </project>

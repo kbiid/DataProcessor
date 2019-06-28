@@ -1,7 +1,7 @@
 package kr.co.torpedo.dataprocessor.processor;
 
+import kr.co.torpedo.dataprocessor.processor.db.hibernate.HibernateProcessor;
 import kr.co.torpedo.dataprocessor.processor.db.jdbc.JDBCProcessor;
-import kr.co.torpedo.dataprocessor.processor.db.mybatis.HibernateProcessor;
 import kr.co.torpedo.dataprocessor.processor.db.mybatis.MYBATISProcessor;
 import kr.co.torpedo.dataprocessor.processor.memory.MemoryProcessor;
 import kr.co.torpedo.dataprocessor.type.ProcessorId;

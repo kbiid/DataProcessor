@@ -1,4 +1,4 @@
-package kr.co.torpedo.dataprocessor.processor.db;
+package kr.co.torpedo.dataprocessor.processor.db.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

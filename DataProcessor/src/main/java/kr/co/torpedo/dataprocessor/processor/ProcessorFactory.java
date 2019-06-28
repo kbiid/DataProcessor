@@ -1,6 +1,7 @@
 package kr.co.torpedo.dataprocessor.processor;
 
 import kr.co.torpedo.dataprocessor.processor.db.JDBCProcessor;
+import kr.co.torpedo.dataprocessor.processor.db.mybatis.MYBATISProcessor;
 import kr.co.torpedo.dataprocessor.processor.memory.MemoryProcessor;
 import kr.co.torpedo.dataprocessor.type.ProcessorId;
 
@@ -18,7 +19,7 @@ public class ProcessorFactory {
 			break;
 			
 		case MYBATIS:
-			processor = new MemoryProcessor();
+			processor = new MYBATISProcessor();
 			break;
 			
 		case HIBERNATE:

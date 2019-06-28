@@ -16,7 +16,7 @@ public class Main {
 		fileManager.makeDataFile(configReader.getDatafilePath());
 		jsonParser.setLogFile(configReader.getLogFilePath());
 
-		ProcessorCommon processor = ProcessorFactory.createProcessor(ProcessorId.JDBC);
+		ProcessorCommon processor = ProcessorFactory.createProcessor(ProcessorId.MYBATIS);
 		processor.setConfigReader(configReader);
 		processor.setFileManager(fileManager);
 		processor.setJsonParser(jsonParser);

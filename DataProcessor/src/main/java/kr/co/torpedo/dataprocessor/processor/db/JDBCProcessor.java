@@ -34,7 +34,7 @@ public class JDBCProcessor extends ProcessorCommon {
 		}
 	}
 
-	private void insertDataToDB() {
+	private void insertUserToDB() {
 		truncateTable();
 		String sql = "insert into " + dbTableName + " values(?,?,?,?,?,?)";
 		try {
@@ -59,7 +59,7 @@ public class JDBCProcessor extends ProcessorCommon {
 		}
 	}
 
-	private void selectDataFromDB() {
+	private void selectUserList() {
 		userList.clear();
 		String sql = "select * from " + dbTableName;
 		User user = null;
@@ -107,13 +107,13 @@ public class JDBCProcessor extends ProcessorCommon {
 	@Override
 	public void saveData() {
 		initDbData();
-		insertDataToDB();
+		insertUserToDB();
 	}
 
 	@Override
 	public void setListSavedData() {
-		insertDataToDB();
+		insertUserToDB();
 		userList.clear();
-		selectDataFromDB();
+		selectUserList();
 	}
 }

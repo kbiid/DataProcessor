@@ -93,7 +93,7 @@ public class JDBCProcessor extends ProcessorCommon {
 	@Override
 	public void changeDataByIndexArray() {
 		for (int i = 0; i < indexArray.length; i++) {
-			userList.get(indexArray[i-1]).setEmail("aa@naver.com");
+			userList.get(indexArray[i]-1).setEmail("aa@naver.com");
 		}
 	}
 

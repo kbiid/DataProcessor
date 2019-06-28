@@ -5,7 +5,6 @@ import kr.co.torpedo.dataprocessor.manager.FileManager;
 import kr.co.torpedo.dataprocessor.parser.JSONParser;
 import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
 import kr.co.torpedo.dataprocessor.processor.ProcessorFactory;
-import kr.co.torpedo.dataprocessor.processor.memory.MemoryProcessor;
 import kr.co.torpedo.dataprocessor.type.ProcessorId;
 
 public class Main {

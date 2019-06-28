@@ -35,18 +35,6 @@ public abstract class ProcessorCommon {
 		this.fileManager = fileManager;
 	}
 
-	public ConfigReader getConfigReader() {
-		return configReader;
-	}
-
-	public FileManager getFileManager() {
-		return fileManager;
-	}
-
-	public JSONParser getJsonParser() {
-		return jsonParser;
-	}
-
 	public void setMinMaxIndex() {
 		minIndex = configReader.getDeleteIndexMin();
 		maxIndex = configReader.getDeleteIndexMax();

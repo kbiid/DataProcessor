@@ -59,7 +59,7 @@ public class JDBCProcessor extends ProcessorCommon {
 		}
 	}
 
-	public void selectDataFromDB() {
+	private void selectDataFromDB() {
 		userList.clear();
 		String sql = "select * from " + dbTableName;
 		User user = null;
@@ -93,7 +93,7 @@ public class JDBCProcessor extends ProcessorCommon {
 	@Override
 	public void changeDataByIndexArray() {
 		for (int i = 0; i < indexArray.length; i++) {
-			userList.get(indexArray[i]).setEmail("aa@naver.com");
+			userList.get(indexArray[i-1]).setEmail("aa@naver.com");
 		}
 	}
 

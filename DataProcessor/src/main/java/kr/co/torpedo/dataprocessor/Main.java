@@ -33,22 +33,5 @@ public class Main {
 		
 		processor.setListSavedData();
 		processor.writeDataToLogFile();
-		
-//		MemoryProcessor memory = new MemoryProcessor();
-//		memory.setConfigReader(configReader);
-//		memory.setFileManager(fileManager);
-//		memory.setJsonParser(jsonParser);
-//
-//		memory.readDataAndSetList();
-//		memory.saveData();
-//		memory.writeDataToLogFile();
-//
-//		memory.setIndexArray();
-//		memory.setMinMaxIndex();
-//		memory.changeDataByIndexArray();
-//		memory.deleteDataByMinMaxIndex();
-//
-//		memory.setListSavedData();
-//		memory.writeDataToLogFile();
 	}
 }

@@ -28,7 +28,6 @@ public class JSONParser {
 
 	public void setLogFile(String path) {
 		logFile = new File(path);
-//		this.logFile = logFile;
 	}
 
 	public void setUserList(ArrayList<User> userList) {
@@ -47,7 +46,6 @@ public class JSONParser {
 			jObj.addProperty("ip_address", user.getIp_address());
 			writeEmployee(jObj.toString());
 		}
-		userList.clear();
 	}
 
 	public void writeEmployee(String jsonStr) {

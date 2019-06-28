@@ -52,13 +52,38 @@ public abstract class ProcessorCommon {
 		maxIndex = configReader.getDeleteIndexMax();
 	}
 
+	public void readDataAndSetList() {
+		if (!fileManager.checkDataFile()) {// 데이터 파일이 정상적으로 존재하는 경우
+			// 에러 로그 추가해야됨
+			try {
+				throw new Exception("data file not exist!");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		jsonParser.deSelialize(fileManager.getDataFile());
+		userList = jsonParser.getUserList();
+	}
+	
+	public void setIndexArray() {
+		String str = configReader.getUpdateIndexesString();
+		String[] array = str.split(",");
+		indexArray = new int[array.length];
+		for (int i = 0; i < array.length; i++) {
+			indexArray[i] = Integer.parseInt(array[i]);
+		}
+	}
+
+	public void writeDataToLogFile() {
+		jsonParser.setUserList(userList);
+		jsonParser.selialize();
+	}
+	
 	public abstract void changeDataByIndexArray();
 
 	public abstract void deleteDataByMinMaxIndex();
 
-	public abstract void saveDataToList();
-
-	public abstract void setListData();
-	
 	public abstract void saveData();
+
+	public abstract void setListSavedData();
 }

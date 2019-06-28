@@ -98,4 +98,12 @@ public class ConfigReader {
 		}
 		return properties.get("db.pw").toString();
 	}
+
+	public String getDbTableName() {
+		if (properties == null || !properties.containsKey("db.tablename")) {
+//			ContentWriter.invalidFileLogger.error("properties가 null이거나 db.tablename키가 없습니다.");
+			throw new NullPointerException("properties가 null이거나 db.tablename키가 없습니다.");
+		}
+		return properties.get("db.tablename").toString();
+	}
 }

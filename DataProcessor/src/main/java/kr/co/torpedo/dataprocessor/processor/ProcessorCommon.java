@@ -13,16 +13,16 @@ public abstract class ProcessorCommon {
 	protected JSONParser jsonParser;
 	protected ArrayList<User> userList;
 	protected int[] indexArray;
-	protected int minIndex,maxIndex;
+	protected int minIndex, maxIndex;
 
 	public ProcessorCommon() {
 		userList = new ArrayList<>();
 	}
-	
+
 	public ArrayList<User> getUserList() {
 		return userList;
 	}
-	
+
 	public void setJsonParser(JSONParser jsonParser) {
 		this.jsonParser = jsonParser;
 	}
@@ -51,8 +51,12 @@ public abstract class ProcessorCommon {
 		minIndex = configReader.getDeleteIndexMin();
 		maxIndex = configReader.getDeleteIndexMax();
 	}
-	
+
 	public abstract void changeDataByIndexArray();
-	
+
 	public abstract void deleteDataByMinMaxIndex();
+
+	public abstract void saveData();
+
+	public abstract void setListData();
 }

@@ -19,7 +19,7 @@ public class Main {
 		memory.setFileManager(fileManager);
 		memory.setJsonParser(jsonParser);
 
-		memory.saveDataToHashMap();
+		memory.saveData();
 		memory.getJsonParser().setUserList(memory.getUserList());
 		memory.getJsonParser().selialize();
 
@@ -27,8 +27,8 @@ public class Main {
 		memory.setMinMaxIndex();
 		memory.changeDataByIndexArray();
 		memory.deleteDataByMinMaxIndex();
-		
-		memory.setListByHashMap();
+
+		memory.setListData();
 		memory.getJsonParser().setUserList(memory.getUserList());
 		memory.getJsonParser().selialize();
 

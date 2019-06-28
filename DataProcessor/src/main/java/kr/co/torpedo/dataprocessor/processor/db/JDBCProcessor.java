@@ -22,4 +22,16 @@ public class JDBCProcessor extends ProcessorCommon {
 		
 	}
 
+	@Override
+	public void saveData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListData() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

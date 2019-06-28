@@ -17,23 +17,6 @@ public class MemoryProcessor extends ProcessorCommon {
 		return userHashMap;
 	}
 
-	public void saveDataToHashMap() {
-		if (!fileManager.checkDataFile()) {// 데이터 파일이 정상적으로 존재하는 경우
-			// 에러 로그 추가해야됨
-			try {
-				throw new Exception("data file not exist!");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		jsonParser.deSelialize(fileManager.getDataFile());
-		userList = jsonParser.getUserList();
-
-		for (User user : userList) {
-			userHashMap.put(user.getId(), user);
-		}
-	}
-
 	public void setIndexArray() {
 		String str = configReader.getUpdateIndexesString();
 		String[] array = str.split(",");
@@ -61,7 +44,26 @@ public class MemoryProcessor extends ProcessorCommon {
 		}
 	}
 
-	public void setListByHashMap() {
+	@Override
+	public void saveData() {
+		if (!fileManager.checkDataFile()) {// 데이터 파일이 정상적으로 존재하는 경우
+			// 에러 로그 추가해야됨
+			try {
+				throw new Exception("data file not exist!");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		jsonParser.deSelialize(fileManager.getDataFile());
+		userList = jsonParser.getUserList();
+
+		for (User user : userList) {
+			userHashMap.put(user.getId(), user);
+		}
+	}
+
+	@Override
+	public void setListData() {
 		userList.clear();
 
 		for (int i : userHashMap.keySet()) {

@@ -18,7 +18,7 @@ public class ConfigReader {
 	}
 
 	private void loadProp() {
-		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.properties") ) {
+		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.properties")) {
 			properties.load(inputStream);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -66,12 +66,36 @@ public class ConfigReader {
 		}
 		return Integer.parseInt(properties.get("data.deleteindex.max").toString());
 	}
-	
+
 	public String getLogFilePath() {
 		if (properties == null || !properties.containsKey("logfile.path")) {
 //			ContentWriter.invalidFileLogger.error("properties가 null이거나 logfile.path키가 없습니다.");
 			throw new NullPointerException("properties가 null이거나 logfile.path키가 없습니다.");
 		}
 		return properties.get("logfile.path").toString();
+	}
+
+	public String getDbUrl() {
+		if (properties == null || !properties.containsKey("db.url")) {
+//			ContentWriter.invalidFileLogger.error("properties가 null이거나 db.url키가 없습니다.");
+			throw new NullPointerException("properties가 null이거나 db.url키가 없습니다.");
+		}
+		return properties.get("db.url").toString();
+	}
+
+	public String getDbUserId() {
+		if (properties == null || !properties.containsKey("db.userid")) {
+//			ContentWriter.invalidFileLogger.error("properties가 null이거나 db.userid키가 없습니다.");
+			throw new NullPointerException("properties가 null이거나 db.userid키가 없습니다.");
+		}
+		return properties.get("db.userid").toString();
+	}
+
+	public String getDbPw() {
+		if (properties == null || !properties.containsKey("db.pw")) {
+//			ContentWriter.invalidFileLogger.error("properties가 null이거나 db.pw키가 없습니다.");
+			throw new NullPointerException("properties가 null이거나 db.pw키가 없습니다.");
+		}
+		return properties.get("db.pw").toString();
 	}
 }

@@ -56,7 +56,9 @@ public abstract class ProcessorCommon {
 
 	public abstract void deleteDataByMinMaxIndex();
 
-	public abstract void saveData();
+	public abstract void saveDataToList();
 
 	public abstract void setListData();
+	
+	public abstract void saveData();
 }

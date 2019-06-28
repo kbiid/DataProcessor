@@ -45,7 +45,7 @@ public class MemoryProcessor extends ProcessorCommon {
 	}
 
 	@Override
-	public void saveData() {
+	public void saveDataToList() {
 		if (!fileManager.checkDataFile()) {// 데이터 파일이 정상적으로 존재하는 경우
 			// 에러 로그 추가해야됨
 			try {
@@ -69,5 +69,11 @@ public class MemoryProcessor extends ProcessorCommon {
 		for (int i : userHashMap.keySet()) {
 			userList.add(userHashMap.get(i));
 		}
+	}
+
+	@Override
+	public void saveData() {
+		jsonParser.setUserList(userList);
+		jsonParser.selialize();
 	}
 }

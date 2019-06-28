@@ -8,7 +8,7 @@ public class FileManager {
 	public void makeDataFile(String path) {
 		dataFile = new File(path);
 	}
-	
+
 	public boolean checkDataFile() {
 		if (!dataFile.exists()) { // 파일이 없는 경우
 //			Parser.invalidFileLogger.info("File exist");

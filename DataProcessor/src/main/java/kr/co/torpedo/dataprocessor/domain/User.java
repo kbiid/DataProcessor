@@ -64,5 +64,4 @@ public class User {
 	public void setIp_address(String ip_address) {
 		this.ip_address = ip_address;
 	}
-
 }

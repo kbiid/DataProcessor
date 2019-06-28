@@ -52,7 +52,7 @@ public abstract class ProcessorCommon {
 		jsonParser.deSelialize(fileManager.getDataFile());
 		userList = jsonParser.getUserList();
 	}
-	
+
 	public void setIndexArray() {
 		String str = configReader.getUpdateIndexesString();
 		String[] array = str.split(",");
@@ -66,7 +66,7 @@ public abstract class ProcessorCommon {
 		jsonParser.setUserList(userList);
 		jsonParser.selialize();
 	}
-	
+
 	public abstract void changeDataByIndexArray();
 
 	public abstract void deleteDataByMinMaxIndex();

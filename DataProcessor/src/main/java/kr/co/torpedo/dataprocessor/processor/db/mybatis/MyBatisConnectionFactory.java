@@ -15,7 +15,7 @@ public class MyBatisConnectionFactory {
 		try {
 			String path = "main/resources/mybatis/config.xml";
 			Reader reader = Resources.getResourceAsReader(path);
-			
+
 			if (sqlSessionFactory == null) {
 				sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
 			}
@@ -25,7 +25,7 @@ public class MyBatisConnectionFactory {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static SqlSessionFactory getSqlSessionFactory() {
 		return sqlSessionFactory;
 	}

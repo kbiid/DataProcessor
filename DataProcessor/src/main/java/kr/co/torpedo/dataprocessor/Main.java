@@ -8,7 +8,6 @@ import kr.co.torpedo.dataprocessor.processor.ProcessorFactory;
 import kr.co.torpedo.dataprocessor.type.ProcessorId;
 
 public class Main {
-
 	public static void main(String[] args) {
 		ConfigReader configReader = new ConfigReader();
 		FileManager fileManager = new FileManager();

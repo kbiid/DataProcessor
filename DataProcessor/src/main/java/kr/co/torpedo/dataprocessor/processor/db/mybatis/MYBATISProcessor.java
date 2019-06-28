@@ -8,7 +8,7 @@ import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
 public class MYBATISProcessor extends ProcessorCommon {
 	private SqlSession sqlSession;
 	private UserDAO userDao;
-	
+
 	public MYBATISProcessor() {
 		sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession(true);
 		userDao = sqlSession.getMapper(UserDAO.class);
@@ -17,14 +17,14 @@ public class MYBATISProcessor extends ProcessorCommon {
 	@Override
 	public void changeDataByIndexArray() {
 		for (int i = 0; i < indexArray.length; i++) {
-			userList.get(indexArray[i]-1).setEmail("aa@naver.com");
+			userList.get(indexArray[i] - 1).setEmail("aa@naver.com");
 		}
 	}
 
 	@Override
 	public void deleteDataByMinMaxIndex() {
 		for (int i = minIndex; i <= maxIndex; i++) {
-			userList.remove(minIndex-1);
+			userList.remove(minIndex - 1);
 		}
 	}
 
@@ -43,5 +43,4 @@ public class MYBATISProcessor extends ProcessorCommon {
 		userList.clear();
 		userList = userDao.selectUserList();
 	}
-
 }

@@ -5,29 +5,28 @@ import kr.co.torpedo.dataprocessor.processor.db.jdbc.JDBCProcessor;
 import kr.co.torpedo.dataprocessor.processor.db.jdbc.JDBCProcessorWithCP;
 import kr.co.torpedo.dataprocessor.processor.db.mybatis.MYBATISProcessor;
 import kr.co.torpedo.dataprocessor.processor.memory.MemoryProcessor;
-import kr.co.torpedo.dataprocessor.type.ProcessorId;
 
 public class ProcessorFactory {
-	public static ProcessorCommon createProcessor(ProcessorId processorId) {
+	public static ProcessorCommon createProcessor(String str) {
 		ProcessorCommon processor = null;
-		switch (processorId) {
-		case MEMORY:
+		switch (str.toLowerCase()) {
+		case "memory":
 			processor = new MemoryProcessor();
 			break;
 
-		case JDBC:
+		case "jdbc":
 			processor = new JDBCProcessor();
 			break;
 
-		case MYBATIS:
+		case "mybatis":
 			processor = new MYBATISProcessor();
 			break;
 
-		case HIBERNATE:
+		case "hiberante":
 			processor = new HibernateProcessor();
 			break;
-			
-		case JDBC_CP:
+
+		case "jdbcp":
 			processor = new JDBCProcessorWithCP();
 			break;
 

@@ -5,7 +5,6 @@ import kr.co.torpedo.dataprocessor.manager.FileManager;
 import kr.co.torpedo.dataprocessor.processor.JSONParser;
 import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
 import kr.co.torpedo.dataprocessor.processor.ProcessorFactory;
-import kr.co.torpedo.dataprocessor.type.ProcessorId;
 
 public class Main {
 	public static void main(String[] args) {
@@ -15,7 +14,7 @@ public class Main {
 		fileManager.makeDataFile(configReader.getDatafilePath());
 		jsonParser.setLogFile(configReader.getLogFilePath());
 
-		ProcessorCommon processor = ProcessorFactory.createProcessor(ProcessorId.JDBC_CP);
+		ProcessorCommon processor = ProcessorFactory.createProcessor(configReader.getProcessorType());
 		processor.setConfigReader(configReader);
 		processor.setFileManager(fileManager);
 		processor.setJsonParser(jsonParser);

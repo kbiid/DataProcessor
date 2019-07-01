@@ -10,7 +10,7 @@ import kr.co.torpedo.dataprocessor.domain.User;
 import kr.co.torpedo.dataprocessor.manager.FileManager;
 
 public abstract class ProcessorCommon {
-	public static final Logger invalidFileLogger = LoggerFactory.getLogger(ProcessorCommon.class);
+	public static final Logger invalidFileLogger = LoggerFactory.getLogger("log.invalid");
 	protected ConfigReader configReader;
 	protected FileManager fileManager;
 	protected JSONParser jsonParser;

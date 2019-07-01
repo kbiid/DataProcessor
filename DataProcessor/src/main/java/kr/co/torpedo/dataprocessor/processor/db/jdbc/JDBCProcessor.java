@@ -97,14 +97,14 @@ public class JDBCProcessor extends ProcessorCommon {
 	@Override
 	public void changeDataByIndexArray() {
 		for (int i = 0; i < indexArray.length; i++) {
-			userList.get(indexArray[i]-1).setEmail("aa@naver.com");
+			userList.get(indexArray[i] - 1).setEmail("aa@naver.com");
 		}
 	}
 
 	@Override
 	public void deleteDataByMinMaxIndex() {
 		for (int i = minIndex; i <= maxIndex; i++) {
-			userList.remove(minIndex-1);
+			userList.remove(minIndex - 1);
 		}
 	}
 

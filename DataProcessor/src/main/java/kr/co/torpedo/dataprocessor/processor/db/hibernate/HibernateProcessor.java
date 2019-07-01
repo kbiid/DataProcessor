@@ -40,7 +40,7 @@ public class HibernateProcessor extends ProcessorCommon {
 		}
 		session.close();
 	}
-	
+
 	private void truncateTable() {
 		ProcessorCommon.invalidFileLogger.info("HieranteProcessor truncateTable start!");
 		session = sessionFactory.openSession();

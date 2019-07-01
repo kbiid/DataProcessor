@@ -6,6 +6,8 @@ import kr.co.torpedo.dataprocessor.domain.User;
 
 public interface UserDAO {
 	public ArrayList<User> selectUserList();
+
 	public void truncateTable();
+
 	public void insertUserToDB(User user);
 }

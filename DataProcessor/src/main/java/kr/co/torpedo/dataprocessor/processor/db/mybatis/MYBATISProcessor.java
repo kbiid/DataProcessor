@@ -31,6 +31,7 @@ public class MYBATISProcessor extends ProcessorCommon {
 	@Override
 	public void saveData() {
 		userDao.truncateTable();
+		ProcessorCommon.invalidFileLogger.info("MTBATISProcessor saveData start!");
 		for (User user : userList) {
 			userDao.insertUserToDB(user);
 		}
@@ -39,6 +40,7 @@ public class MYBATISProcessor extends ProcessorCommon {
 
 	@Override
 	public void setListSavedData() {
+		ProcessorCommon.invalidFileLogger.info("MTBATISProcessor setListSavedData start!");
 		saveData();
 		userList.clear();
 		userList = userDao.selectUserList();

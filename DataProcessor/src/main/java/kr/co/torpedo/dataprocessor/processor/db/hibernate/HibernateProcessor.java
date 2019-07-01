@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import kr.co.torpedo.dataprocessor.domain.User;
 import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
@@ -16,20 +18,40 @@ public class HibernateProcessor extends ProcessorCommon {
 		sessionFactory = HibernateConnectionFactory.getSessionFactory();
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void insertUserToDB() {
+		ProcessorCommon.invalidFileLogger.info("HieranteProcessor insertData start!");
 		session = sessionFactory.openSession();
-		session.createQuery("delete from user_tb").executeUpdate();
+		Transaction tx = null;
+		Query query = null;
+		truncateTable();
 
 		for (User user : userList) {
-			session.beginTransaction();
-			session.save(user);
-			session.getTransaction().commit();
+			tx = session.beginTransaction();
+			query = session.createSQLQuery("insert into user_tb values(?,?,?,?,?,?)");
+			query.setParameter(1, user.getId());
+			query.setParameter(2, user.getFirst_name());
+			query.setParameter(3, user.getLast_name());
+			query.setParameter(4, user.getEmail());
+			query.setParameter(5, user.getGender());
+			query.setParameter(6, user.getIp_address());
+			query.executeUpdate();
+			tx.commit();
 		}
 		session.close();
-		sessionFactory.close();
+	}
+	
+	private void truncateTable() {
+		ProcessorCommon.invalidFileLogger.info("HieranteProcessor truncateTable start!");
+		session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.createQuery("delete from User").executeUpdate();
+		tx.commit();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void selectUserFromDB() {
+		ProcessorCommon.invalidFileLogger.info("HieranteProcessor selecteData start!");
 		userList.clear();
 		session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -56,11 +78,13 @@ public class HibernateProcessor extends ProcessorCommon {
 
 	@Override
 	public void saveData() {
+		ProcessorCommon.invalidFileLogger.info("HieranteProcessor saveData method start!");
 		insertUserToDB();
 	}
 
 	@Override
 	public void setListSavedData() {
+		ProcessorCommon.invalidFileLogger.info("HieranteProcessor setListSavedData method start!");
 		insertUserToDB();
 		userList.clear();
 		selectUserFromDB();

@@ -32,7 +32,7 @@
 
 	<logger name="log.console" additivity="true" />
 
-	<root level="trace">
+	<root level="debug">
 		<appender-ref ref="STDOUT" />
 	</root>
 

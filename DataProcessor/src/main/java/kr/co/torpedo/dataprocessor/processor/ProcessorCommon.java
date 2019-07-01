@@ -2,12 +2,16 @@ package kr.co.torpedo.dataprocessor.processor;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import kr.co.torpedo.dataprocessor.config.ConfigReader;
 import kr.co.torpedo.dataprocessor.domain.User;
 import kr.co.torpedo.dataprocessor.manager.FileManager;
 import kr.co.torpedo.dataprocessor.parser.JSONParser;
 
 public abstract class ProcessorCommon {
+	public static final Logger invalidFileLogger = LoggerFactory.getLogger(ProcessorCommon.class);
 	protected ConfigReader configReader;
 	protected FileManager fileManager;
 	protected JSONParser jsonParser;
@@ -42,11 +46,10 @@ public abstract class ProcessorCommon {
 
 	public void readDataAndSetList() {
 		if (!fileManager.checkDataFile()) {// 데이터 파일이 정상적으로 존재하는 경우
-			// 에러 로그 추가해야됨
 			try {
 				throw new Exception("data file not exist!");
 			} catch (Exception e) {
-				e.printStackTrace();
+				ProcessorCommon.invalidFileLogger.error("data file not exist!");
 			}
 		}
 		jsonParser.deSelialize(fileManager.getDataFile());

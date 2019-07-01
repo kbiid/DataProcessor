@@ -37,6 +37,7 @@ public class MemoryProcessor extends ProcessorCommon {
 
 	@Override
 	public void saveData() {
+		ProcessorCommon.invalidFileLogger.info("MemoryProcessor save data start!");
 		for (User user : userList) {
 			userHashMap.put(user.getId(), user);
 		}
@@ -44,6 +45,7 @@ public class MemoryProcessor extends ProcessorCommon {
 
 	@Override
 	public void setListSavedData() {
+		ProcessorCommon.invalidFileLogger.info("MemoryProcessor saved data set to list start!");
 		userList.clear();
 
 		for (int i : userHashMap.keySet()) {

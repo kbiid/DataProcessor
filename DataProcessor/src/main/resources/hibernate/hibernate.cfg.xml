@@ -7,7 +7,7 @@
 		<property name="hibernate.connection.driver_class">org.mariadb.jdbc.Driver</property>
 		<property name="hibernate.connection.password">047010</property>
 		<property name="hibernate.connection.url">jdbc:mariadb://localhost:3306/userinfo</property>
-		<property name="hibernate.default_schema">user_tb</property>
+		<property name="hibernate.default_schema">userinfo</property>
 		<property name="hibernate.connection.username">root</property>
 
 		<property name="hibernate.connection.CharSet">UTF-8</property>
@@ -35,11 +35,11 @@
 		<property name="hibernate.vibur.statementCacheMaxSize">200</property>
 
 		<!-- Echo all executed SQL to stdout -->
-		<property name="show_sql">true</property>
-		<property name="format_sql">true</property>
+		<property name="show_sql">false</property>
+		<property name="format_sql">false</property>
 		<property name="use_sql_comments">false</property>
 
 		<!-- Table Class -->
-		<mapping class="/DataProcessor/src/main/java/kr/co/torpedo/dataprocessor/domain/User.java" />
+		<mapping class="kr.co.torpedo.dataprocessor.domain.User" />
 	</session-factory>
 </hibernate-configuration>

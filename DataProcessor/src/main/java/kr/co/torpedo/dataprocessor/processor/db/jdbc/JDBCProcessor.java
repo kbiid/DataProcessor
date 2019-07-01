@@ -17,6 +17,7 @@ public class JDBCProcessor extends ProcessorCommon {
 	}
 
 	private void truncateTable() {
+		ProcessorCommon.invalidFileLogger.info("JDBCProcessor truncateTable start!");
 		String sql = "TRUNCATE " + dbTableName;
 
 		try {
@@ -36,6 +37,7 @@ public class JDBCProcessor extends ProcessorCommon {
 
 	private void insertUserToDB() {
 		truncateTable();
+		ProcessorCommon.invalidFileLogger.info("JDBCProcessor insert data to table start!");
 		String sql = "insert into " + dbTableName + " values(?,?,?,?,?,?)";
 		try {
 			Class.forName(className);
@@ -61,6 +63,7 @@ public class JDBCProcessor extends ProcessorCommon {
 
 	private void selectUserList() {
 		userList.clear();
+		ProcessorCommon.invalidFileLogger.info("JDBCProcessor select data start!");
 		String sql = "select * from " + dbTableName;
 		User user = null;
 
@@ -76,14 +79,15 @@ public class JDBCProcessor extends ProcessorCommon {
 					userList.add(user);
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				ProcessorCommon.invalidFileLogger.error("JDBCProcessor select data error" + e);
 			}
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			ProcessorCommon.invalidFileLogger.error("JDBCProcessor select data error" + e);
 		}
 	}
 
-	private void initDbData() {
+	private void initDBData() {
+		ProcessorCommon.invalidFileLogger.info("JDBCProcessor initDBData");
 		url = configReader.getDbUrl();
 		userId = configReader.getDbUserId();
 		dbPw = configReader.getDbPw();
@@ -106,12 +110,14 @@ public class JDBCProcessor extends ProcessorCommon {
 
 	@Override
 	public void saveData() {
-		initDbData();
+		ProcessorCommon.invalidFileLogger.info("JDBCProcessor save data");
+		initDBData();
 		insertUserToDB();
 	}
 
 	@Override
 	public void setListSavedData() {
+		ProcessorCommon.invalidFileLogger.info("JDBCProcessor set list for savedData");
 		insertUserToDB();
 		userList.clear();
 		selectUserList();

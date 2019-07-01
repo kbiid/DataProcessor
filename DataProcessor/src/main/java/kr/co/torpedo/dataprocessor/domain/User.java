@@ -2,11 +2,13 @@ package kr.co.torpedo.dataprocessor.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_tb")
 public class User {
+	@Id
 	@Column(name = "id", columnDefinition = "int")
 	private int id;
 	@Column(name = "first_name", columnDefinition = "varchar(100)")
@@ -20,6 +22,9 @@ public class User {
 	@Column(name = "ip_address", columnDefinition = "varchar(200)")
 	private String ip_address;
 
+	public User() {
+	}
+	
 	public User(int id, String first_name, String last_name, String email, String gender, String ip_address) {
 		this.id = id;
 		this.first_name = first_name;

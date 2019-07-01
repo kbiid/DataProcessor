@@ -48,7 +48,7 @@ public class JSONParser {
 		}
 	}
 
-	public void writeEmployee(String jsonStr) {
+	private void writeEmployee(String jsonStr) {
 		String str = jsonStr;
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(logFile, true))) {

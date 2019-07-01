@@ -13,10 +13,6 @@ public class MemoryProcessor extends ProcessorCommon {
 		userHashMap = new HashMap<>();
 	}
 
-	public HashMap<Integer, User> getUserHashMap() {
-		return userHashMap;
-	}
-
 	@Override
 	public void changeDataByIndexArray() {
 		for (int i = 0; i < indexArray.length; i++) {

@@ -22,10 +22,6 @@ public abstract class ProcessorCommon {
 		userList = new ArrayList<>();
 	}
 
-	public ArrayList<User> getUserList() {
-		return userList;
-	}
-
 	public void setJsonParser(JSONParser jsonParser) {
 		this.jsonParser = jsonParser;
 	}

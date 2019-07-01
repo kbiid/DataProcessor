@@ -28,9 +28,11 @@ public class JDBCProcessor extends ProcessorCommon {
 				pstmt.executeUpdate();
 				con.commit();
 			} catch (SQLException e) {
+				ProcessorCommon.invalidFileLogger.error("JDBCProcessor truncateTable error: " + e);
 				e.printStackTrace();
 			}
 		} catch (ClassNotFoundException e) {
+			ProcessorCommon.invalidFileLogger.error("JDBCProcessor truncateTable error: " + e);
 			e.printStackTrace();
 		}
 	}
@@ -54,9 +56,11 @@ public class JDBCProcessor extends ProcessorCommon {
 					pstmt.executeUpdate();
 				}
 			} catch (SQLException e) {
+				ProcessorCommon.invalidFileLogger.info("JDBCProcessor insert data to table error: " + e);
 				e.printStackTrace();
 			}
 		} catch (ClassNotFoundException e) {
+			ProcessorCommon.invalidFileLogger.info("JDBCProcessor insert data to table error: " + e);
 			e.printStackTrace();
 		}
 	}
@@ -80,9 +84,11 @@ public class JDBCProcessor extends ProcessorCommon {
 				}
 			} catch (SQLException e) {
 				ProcessorCommon.invalidFileLogger.error("JDBCProcessor select data error" + e);
+				e.printStackTrace();
 			}
 		} catch (ClassNotFoundException e) {
 			ProcessorCommon.invalidFileLogger.error("JDBCProcessor select data error" + e);
+			e.printStackTrace();
 		}
 	}
 

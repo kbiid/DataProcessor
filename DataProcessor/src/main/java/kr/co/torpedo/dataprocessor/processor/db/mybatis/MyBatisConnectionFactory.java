@@ -8,6 +8,8 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
+
 public class MyBatisConnectionFactory {
 	private static SqlSessionFactory sqlSessionFactory;
 
@@ -20,8 +22,10 @@ public class MyBatisConnectionFactory {
 				sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
 			}
 		} catch (FileNotFoundException e) {
+			ProcessorCommon.invalidFileLogger.error("MyBatisConnectionFactory error : " + e);
 			e.printStackTrace();
 		} catch (IOException e) {
+			ProcessorCommon.invalidFileLogger.error("MyBatisConnectionFactory error : " + e);
 			e.printStackTrace();
 		}
 	}

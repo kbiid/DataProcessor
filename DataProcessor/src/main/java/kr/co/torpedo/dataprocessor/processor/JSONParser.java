@@ -56,6 +56,7 @@ public class JSONParser {
 			bw.write("\r\n");
 		} catch (IOException e) {
 			ProcessorCommon.invalidFileLogger.error("JSONSerializer IOException : " + e);
+			e.printStackTrace();
 		}
 	}
 
@@ -66,13 +67,15 @@ public class JSONParser {
 			jsonArray = (JsonArray) obj;
 		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
 			ProcessorCommon.invalidFileLogger.error("JSONDeSerializer Exception : " + e);
+			e.printStackTrace();
 		}
 	}
 
 	public ArrayList<User> getUserList() {
 		userList.clear();
 		if (jsonArray == null) {
-
+			ProcessorCommon.invalidFileLogger.error("JSONArray is null");
+			return userList;
 		}
 		for (int i = 0; i < jsonArray.size(); i++) {
 			JsonObject jobj = (JsonObject) jsonArray.get(i);

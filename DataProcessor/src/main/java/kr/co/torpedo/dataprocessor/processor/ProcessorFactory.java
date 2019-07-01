@@ -2,6 +2,7 @@ package kr.co.torpedo.dataprocessor.processor;
 
 import kr.co.torpedo.dataprocessor.processor.db.hibernate.HibernateProcessor;
 import kr.co.torpedo.dataprocessor.processor.db.jdbc.JDBCProcessor;
+import kr.co.torpedo.dataprocessor.processor.db.jdbc.JDBCProcessorWithCP;
 import kr.co.torpedo.dataprocessor.processor.db.mybatis.MYBATISProcessor;
 import kr.co.torpedo.dataprocessor.processor.memory.MemoryProcessor;
 import kr.co.torpedo.dataprocessor.type.ProcessorId;
@@ -24,6 +25,10 @@ public class ProcessorFactory {
 
 		case HIBERNATE:
 			processor = new HibernateProcessor();
+			break;
+			
+		case JDBC_CP:
+			processor = new JDBCProcessorWithCP();
 			break;
 
 		default:

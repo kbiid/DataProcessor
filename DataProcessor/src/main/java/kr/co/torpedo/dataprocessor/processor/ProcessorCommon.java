@@ -45,6 +45,7 @@ public abstract class ProcessorCommon {
 				throw new Exception("data file not exist!");
 			} catch (Exception e) {
 				ProcessorCommon.invalidFileLogger.error("data file not exist!");
+				e.printStackTrace();
 			}
 		}
 		jsonParser.deSelialize(fileManager.getDataFile());

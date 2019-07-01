@@ -20,15 +20,17 @@ public class Main {
 		processor.setJsonParser(jsonParser);
 
 		processor.readDataAndSetList();
+		processor.clearDB();
 		processor.saveData();
-		processor.writeDataToLogFile();
+//		processor.writeDataToLogFile();
+		processor.savedDataWriteLog();
 
 		processor.setIndexArray();
 		processor.setMinMaxIndex();
 		processor.changeDataByIndexArray();
 		processor.deleteDataByMinMaxIndex();
 
-		processor.setListSavedData();
-		processor.writeDataToLogFile();
+		processor.savedDataWriteLog();
+//		processor.writeDataToLogFile();
 	}
 }

@@ -39,10 +39,16 @@ public class MYBATISProcessor extends ProcessorCommon {
 	}
 
 	@Override
-	public void setListSavedData() {
+	public void savedDataWriteLog() {
 		ProcessorCommon.invalidFileLogger.info("MTBATISProcessor setListSavedData start!");
 		saveData();
 		userList.clear();
 		userList = userDao.selectUserList();
+	}
+
+	@Override
+	public void clearDB() {
+		// TODO Auto-generated method stub
+		
 	}
 }

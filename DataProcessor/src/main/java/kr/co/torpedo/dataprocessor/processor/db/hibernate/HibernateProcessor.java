@@ -26,8 +26,8 @@ public class HibernateProcessor extends ProcessorCommon {
 		Query query = null;
 		truncateTable();
 
+		tx = session.beginTransaction();
 		for (User user : userList) {
-			tx = session.beginTransaction();
 			query = session.createSQLQuery("insert into user_tb values(?,?,?,?,?,?)");
 			query.setParameter(1, user.getId());
 			query.setParameter(2, user.getFirst_name());
@@ -36,8 +36,8 @@ public class HibernateProcessor extends ProcessorCommon {
 			query.setParameter(5, user.getGender());
 			query.setParameter(6, user.getIp_address());
 			query.executeUpdate();
-			tx.commit();
 		}
+		tx.commit();
 		session.close();
 	}
 
@@ -83,11 +83,17 @@ public class HibernateProcessor extends ProcessorCommon {
 	}
 
 	@Override
-	public void setListSavedData() {
+	public void savedDataWriteLog() {
 		ProcessorCommon.invalidFileLogger.info("HieranteProcessor setListSavedData method start!");
 		insertUserToDB();
 		userList.clear();
 		selectUserFromDB();
+	}
+
+	@Override
+	public void clearDB() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

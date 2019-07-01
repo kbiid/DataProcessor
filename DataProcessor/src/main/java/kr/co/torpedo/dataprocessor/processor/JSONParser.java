@@ -34,18 +34,30 @@ public class JSONParser {
 		this.userList = userList;
 	}
 
-	public void selialize() {
+//	public void marshalData() {
+//		JsonObject jObj = null;
+//		for (User user : userList) {
+//			jObj = new JsonObject();
+//			jObj.addProperty("id", user.getId());
+//			jObj.addProperty("first_name", user.getFirst_name());
+//			jObj.addProperty("last_name", user.getLast_name());
+//			jObj.addProperty("email", user.getEmail());
+//			jObj.addProperty("gender", user.getGender());
+//			jObj.addProperty("ip_address", user.getIp_address());
+//			writeEmployee(jObj.toString());
+//		}
+//	}
+
+	public void marshalData(User user) {
 		JsonObject jObj = null;
-		for (User user : userList) {
-			jObj = new JsonObject();
-			jObj.addProperty("id", user.getId());
-			jObj.addProperty("first_name", user.getFirst_name());
-			jObj.addProperty("last_name", user.getLast_name());
-			jObj.addProperty("email", user.getEmail());
-			jObj.addProperty("gender", user.getGender());
-			jObj.addProperty("ip_address", user.getIp_address());
-			writeEmployee(jObj.toString());
-		}
+		jObj = new JsonObject();
+		jObj.addProperty("id", user.getId());
+		jObj.addProperty("first_name", user.getFirst_name());
+		jObj.addProperty("last_name", user.getLast_name());
+		jObj.addProperty("email", user.getEmail());
+		jObj.addProperty("gender", user.getGender());
+		jObj.addProperty("ip_address", user.getIp_address());
+		writeEmployee(jObj.toString());
 	}
 
 	private void writeEmployee(String jsonStr) {
@@ -60,14 +72,13 @@ public class JSONParser {
 		}
 	}
 
-	public void deSelialize(File file) {
+	public void unmarshalData(File file) {
 		JsonParser parser = new JsonParser();
 		try {
 			Object obj = parser.parse(new FileReader(file));
 			jsonArray = (JsonArray) obj;
 		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
 			ProcessorCommon.invalidFileLogger.error("JSONDeSerializer Exception : " + e);
-			e.printStackTrace();
 		}
 	}
 

@@ -48,7 +48,7 @@ public abstract class ProcessorCommon {
 				e.printStackTrace();
 			}
 		}
-		jsonParser.deSelialize(fileManager.getDataFile());
+		jsonParser.unmarshalData(fileManager.getDataFile());
 		userList = jsonParser.getUserList();
 	}
 
@@ -61,10 +61,10 @@ public abstract class ProcessorCommon {
 		}
 	}
 
-	public void writeDataToLogFile() {
-		jsonParser.setUserList(userList);
-		jsonParser.selialize();
-	}
+//	public void writeDataToLogFile() {
+//		jsonParser.setUserList(userList);
+//		jsonParser.marshalData();
+//	}
 
 	public abstract void changeDataByIndexArray();
 
@@ -72,5 +72,7 @@ public abstract class ProcessorCommon {
 
 	public abstract void saveData();
 
-	public abstract void setListSavedData();
+	public abstract void savedDataWriteLog();
+
+	public abstract void clearDB();
 }

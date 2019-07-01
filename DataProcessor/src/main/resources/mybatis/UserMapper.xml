@@ -17,14 +17,14 @@
 	</resultMap>
 
 	<select id="selectUserList" resultMap="result">
-		select * from user_tb;
+		select * from user;
 	</select>
 	
 	<delete id="truncateTable">
-		TRUNCATE user_tb;
+		TRUNCATE user;
 	</delete>
 	
 	<insert id="insertUserToDB" parameterType="User">
-		insert into user_tb values(#{id},#{first_name},#{last_name},#{email},#{gender},#{ip_address});
+		insert into user values(#{id},#{first_name},#{last_name},#{email},#{gender},#{ip_address});
 	</insert>
 </mapper>

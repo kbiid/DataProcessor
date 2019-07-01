@@ -93,10 +93,16 @@ public class JDBCProcessorWithCP extends ProcessorCommon {
 	}
 
 	@Override
-	public void setListSavedData() {
+	public void savedDataWriteLog() {
 		ProcessorCommon.invalidFileLogger.info("JDBCProcessorWithCP set list for savedData");
 		insertUserToDB();
 		userList.clear();
 		selectUserList();
+	}
+
+	@Override
+	public void clearDB() {
+		// TODO Auto-generated method stub
+		
 	}
 }

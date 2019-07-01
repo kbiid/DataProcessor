@@ -40,12 +40,19 @@ public class MemoryProcessor extends ProcessorCommon {
 	}
 
 	@Override
-	public void setListSavedData() {
-		ProcessorCommon.invalidFileLogger.info("MemoryProcessor saved data set to list start!");
+	public void savedDataWriteLog() {
+		invalidFileLogger.info("MemoryProcessor saved data set to list start!");
 		userList.clear();
 
 		for (int i : userHashMap.keySet()) {
-			userList.add(userHashMap.get(i));
+//			userList.add(userHashMap.get(i));
+			jsonParser.marshalData(userHashMap.get(i));
 		}
+	}
+
+	@Override
+	public void clearDB() {
+		// TODO Auto-generated method stub
+		
 	}
 }

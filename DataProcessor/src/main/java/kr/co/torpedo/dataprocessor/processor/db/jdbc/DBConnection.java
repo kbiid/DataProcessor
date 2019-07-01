@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import kr.co.torpedo.dataprocessor.config.ConfigReader;
 import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
 
 public class DBConnection {

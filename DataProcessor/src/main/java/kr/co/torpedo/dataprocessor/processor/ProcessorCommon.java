@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import kr.co.torpedo.dataprocessor.config.ConfigReader;
 import kr.co.torpedo.dataprocessor.domain.User;
 import kr.co.torpedo.dataprocessor.manager.FileManager;
-import kr.co.torpedo.dataprocessor.parser.JSONParser;
 
 public abstract class ProcessorCommon {
 	public static final Logger invalidFileLogger = LoggerFactory.getLogger(ProcessorCommon.class);

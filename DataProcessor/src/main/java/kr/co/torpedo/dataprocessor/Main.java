@@ -2,7 +2,7 @@ package kr.co.torpedo.dataprocessor;
 
 import kr.co.torpedo.dataprocessor.config.ConfigReader;
 import kr.co.torpedo.dataprocessor.manager.FileManager;
-import kr.co.torpedo.dataprocessor.parser.JSONParser;
+import kr.co.torpedo.dataprocessor.processor.JSONParser;
 import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
 import kr.co.torpedo.dataprocessor.processor.ProcessorFactory;
 import kr.co.torpedo.dataprocessor.type.ProcessorId;

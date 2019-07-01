@@ -1,4 +1,4 @@
-package kr.co.torpedo.dataprocessor.parser;
+package kr.co.torpedo.dataprocessor.processor;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -55,7 +55,7 @@ public class JSONParser {
 			bw.write(str);
 			bw.write("\r\n");
 		} catch (IOException e) {
-//			Parser.invalidFileLogger.error("JSONSerializer IOException : " + e);
+			ProcessorCommon.invalidFileLogger.error("JSONSerializer IOException : " + e);
 		}
 	}
 
@@ -65,7 +65,7 @@ public class JSONParser {
 			Object obj = parser.parse(new FileReader(file));
 			jsonArray = (JsonArray) obj;
 		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
-//			Parser.invalidFileLogger.error("JSONDeSerializer Exception : " + e);
+			ProcessorCommon.invalidFileLogger.error("JSONDeSerializer Exception : " + e);
 		}
 	}
 

@@ -42,7 +42,7 @@ public abstract class UserRepository {
 		}
 	}
 
-	public void insertDB() {
+	public void insert() {
 		User user;
 
 		JsonArray array = jsonParser.getJsonArray();

@@ -24,7 +24,7 @@ public class HibernateRepository extends UserRepository {
 	private Transaction tx;
 
 	@Override
-	public void insertDB() {
+	public void insert() {
 		session = sessionFactory.openSession();
 		User user;
 

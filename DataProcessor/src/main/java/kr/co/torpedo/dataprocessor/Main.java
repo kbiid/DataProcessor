@@ -21,7 +21,7 @@ public class Main {
 		processor.initDB();
 		processor.readData();
 		processor.truncate();
-		processor.insertDB();
+		processor.insert();
 		processor.writeLog();
 
 		processor.setIndexArray();

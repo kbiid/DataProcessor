@@ -20,21 +20,40 @@ public class JDBCRepository extends UserRepository {
 		className = "org.mariadb.jdbc.Driver";
 	}
 
-	private void truncateTable() throws SQLException {
-		invalidFileLogger.info("JDBCProcessor truncateTable start!");
-		String sql = "TRUNCATE " + tableName;
+	@Override
+	public void update(int index) {
+		invalidFileLogger.info("JDBCProcessor update data start!");
+		String sql = "update " + tableName + " set email=? where id=?";
 
 		try (Connection con = DriverManager.getConnection(url, id, pwd);
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			Class.forName(className);
+
+			pstmt.setString(1, "aa@naver.com");
+			pstmt.setInt(2, index);
 			pstmt.executeUpdate();
-			con.commit();
-		} catch (ClassNotFoundException e) {
-			invalidFileLogger.error("JDBCProcessor truncateTable error: " + e);
+		} catch (SQLException | ClassNotFoundException e) {
+			invalidFileLogger.error("JDBCProcessor select data error" + e);
 		}
 	}
 
-	private void insertUserToDB(User user) {
+	@Override
+	public void delete(int index) {
+		invalidFileLogger.info("JDBCProcessor delete data start!");
+		String sql = "delete from " + tableName + " where id=?";
+		try (Connection con = DriverManager.getConnection(url, id, pwd);
+				PreparedStatement pstmt = con.prepareStatement(sql)) {
+			Class.forName(className);
+			pstmt.setInt(1, index);
+			pstmt.executeUpdate();
+		} catch (SQLException | ClassNotFoundException e) {
+			invalidFileLogger.error("JDBCProcessor select data error" + e);
+		}
+	}
+
+	@Override
+	public void save(User user) {
+		invalidFileLogger.info("JDBCProcessor save data");
 		invalidFileLogger.info("JDBCProcessor insert data to table start!");
 		String sql = "insert into " + tableName + " values(?,?,?,?,?,?)";
 		try (Connection con = DriverManager.getConnection(url, id, pwd);
@@ -53,7 +72,9 @@ public class JDBCRepository extends UserRepository {
 		}
 	}
 
-	private void selectAllUserAndWriteLog() throws SQLException {
+	@Override
+	public void writeLog() {
+		invalidFileLogger.info("JDBCProcessor set list for savedData");
 		invalidFileLogger.info("JDBCProcessor select data start!");
 		String sql = "select * from " + tableName;
 		User user = null;
@@ -67,72 +88,23 @@ public class JDBCRepository extends UserRepository {
 						rs.getString("email"), rs.getString("gender"), rs.getString("ip_address"));
 				jsonParser.marshal(user);
 			}
-		} catch (ClassNotFoundException e) {
-			invalidFileLogger.error("JDBCProcessor select data error" + e);
-		}
-	}
-
-	private void updateData(int index) {
-		invalidFileLogger.info("JDBCProcessor update data start!");
-		String sql = "update " + tableName + " set email=? where id=?";
-
-		try (Connection con = DriverManager.getConnection(url, id, pwd);
-				PreparedStatement pstmt = con.prepareStatement(sql)) {
-			Class.forName(className);
-
-			pstmt.setString(1, "aa@naver.com");
-			pstmt.setInt(2, index);
-			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
 			invalidFileLogger.error("JDBCProcessor select data error" + e);
-		}
-	}
-
-	@Override
-	public void update(int index) {
-		updateData(index);
-	}
-
-	private void deleteData(int index) {
-		invalidFileLogger.info("JDBCProcessor delete data start!");
-		String sql = "delete from " + tableName + " where id=?";
-		try (Connection con = DriverManager.getConnection(url, id, pwd);
-				PreparedStatement pstmt = con.prepareStatement(sql)) {
-			Class.forName(className);
-			pstmt.setInt(1, index);
-			pstmt.executeUpdate();
-		} catch (SQLException | ClassNotFoundException e) {
-			invalidFileLogger.error("JDBCProcessor select data error" + e);
-		}
-	}
-
-	@Override
-	public void delete(int index) {
-		deleteData(index);
-	}
-
-	@Override
-	public void save(User user) {
-		invalidFileLogger.info("JDBCProcessor save data");
-		insertUserToDB(user);
-	}
-
-	@Override
-	public void writeLog() {
-		invalidFileLogger.info("JDBCProcessor set list for savedData");
-		try {
-			selectAllUserAndWriteLog();
-		} catch (SQLException e) {
-			invalidFileLogger.error("JDBCProcessor setListSavedData Method error!");
 		}
 	}
 
 	@Override
 	public void truncate() {
-		try {
-			truncateTable();
-		} catch (SQLException e) {
-			invalidFileLogger.error("JDBCProcessor cleraDB Method error!" + e);
+		invalidFileLogger.info("JDBCProcessor truncateTable start!");
+		String sql = "TRUNCATE " + tableName;
+
+		try (Connection con = DriverManager.getConnection(url, id, pwd);
+				PreparedStatement pstmt = con.prepareStatement(sql)) {
+			Class.forName(className);
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (SQLException | ClassNotFoundException e) {
+			invalidFileLogger.error("JDBCProcessor truncateTable error: " + e);
 		}
 	}
 }

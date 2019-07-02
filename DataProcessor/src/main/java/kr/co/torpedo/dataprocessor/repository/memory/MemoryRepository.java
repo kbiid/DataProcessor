@@ -1,4 +1,4 @@
-package kr.co.torpedo.dataprocessor.processor.memory;
+package kr.co.torpedo.dataprocessor.repository.memory;
 
 import java.util.HashMap;
 
@@ -6,27 +6,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.processor.UserRepository;
+import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class MemoryRepository extends UserRepository {
 	public static final Logger invalidFileLogger = LoggerFactory.getLogger(MemoryRepository.class);
 	private HashMap<Integer, User> userHashMap;
 
+	public MemoryRepository() {
+		userHashMap = new HashMap<>();
+	}
+	
 	@Override
-	public void update() {
-		for (int i = 0; i < indexArray.length; i++) {
-			if (userHashMap.containsKey(indexArray[i])) {
-				userHashMap.get(indexArray[i]).setEmail("aa@naver.com");
-			}
+	public void update(int index) {
+		if (userHashMap.containsKey(index)) {
+			userHashMap.get(index).setEmail("aa@naver.com");
 		}
 	}
 
 	@Override
-	public void delete() {
-		for (int i = minIndex; i <= maxIndex; i++) {
-			if (userHashMap.containsKey(i)) {
-				userHashMap.remove(i);
-			}
+	public void delete(int index) {
+		if (userHashMap.containsKey(index)) {
+			userHashMap.remove(index);
 		}
 	}
 
@@ -47,10 +47,6 @@ public class MemoryRepository extends UserRepository {
 
 	@Override
 	public void truncate() {
-	}
-
-	@Override
-	public void initDB() {
-		userHashMap = new HashMap<>();
+		userHashMap.clear();
 	}
 }

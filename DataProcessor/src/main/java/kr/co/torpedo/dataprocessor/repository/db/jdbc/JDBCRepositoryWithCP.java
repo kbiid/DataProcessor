@@ -1,4 +1,4 @@
-package kr.co.torpedo.dataprocessor.processor.db.jdbc;
+package kr.co.torpedo.dataprocessor.repository.db.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,12 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.processor.UserRepository;
+import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class JDBCRepositoryWithCP extends UserRepository {
 	private static final Logger invalidFileLogger = LoggerFactory.getLogger(JDBCRepositoryWithCP.class);
 	private Connection conn;
-	private String dbTableName;
 
 	public JDBCRepositoryWithCP() {
 		try {
@@ -26,7 +25,7 @@ public class JDBCRepositoryWithCP extends UserRepository {
 
 	private void truncateTable() {
 		invalidFileLogger.info("JDBCProcessorWithCP truncateTable start!");
-		String sql = "TRUNCATE " + dbTableName;
+		String sql = "TRUNCATE " + tableName;
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.executeUpdate();
 			conn.commit();
@@ -37,7 +36,7 @@ public class JDBCRepositoryWithCP extends UserRepository {
 
 	private void insertUserToDB(User user) {
 		invalidFileLogger.info("JDBCProcessorWithCP insert data to table start!");
-		String sql = "insert into " + dbTableName + " values(?,?,?,?,?,?)";
+		String sql = "insert into " + tableName + " values(?,?,?,?,?,?)";
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, user.getId());
 			pstmt.setString(2, user.getFirst_name());
@@ -53,7 +52,7 @@ public class JDBCRepositoryWithCP extends UserRepository {
 
 	private void selectAllUserAndWriteLog() {
 		invalidFileLogger.info("JDBCProcessorWithCP select data start!");
-		String sql = "select * from " + dbTableName;
+		String sql = "select * from " + tableName;
 		User user = null;
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			ResultSet rs = pstmt.executeQuery();
@@ -69,7 +68,7 @@ public class JDBCRepositoryWithCP extends UserRepository {
 
 	private void updateData(int index) {
 		invalidFileLogger.info("JDBCProcessor update data start!");
-		String sql = "update " + dbTableName + " set email=? where id=?";
+		String sql = "update " + tableName + " set email=? where id=?";
 
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setString(1, "aa@naver.com");
@@ -81,15 +80,13 @@ public class JDBCRepositoryWithCP extends UserRepository {
 	}
 
 	@Override
-	public void update() {
-		for (int i = 0; i < indexArray.length; i++) {
-			updateData(indexArray[i]);
-		}
+	public void update(int index) {
+		updateData(index);
 	}
 
 	private void deleteData(int index) {
 		invalidFileLogger.info("JDBCProcessor delete data start!");
-		String sql = "delete from " + dbTableName + " where id=?";
+		String sql = "delete from " + tableName + " where id=?";
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, index);
 			pstmt.executeUpdate();
@@ -99,10 +96,8 @@ public class JDBCRepositoryWithCP extends UserRepository {
 	}
 
 	@Override
-	public void delete() {
-		for (int i = minIndex; i <= maxIndex; i++) {
-			deleteData(i);
-		}
+	public void delete(int index) {
+		deleteData(index);
 	}
 
 	@Override
@@ -120,10 +115,5 @@ public class JDBCRepositoryWithCP extends UserRepository {
 	@Override
 	public void truncate() {
 		truncateTable();
-	}
-
-	@Override
-	public void initDB() {
-		dbTableName = configReader.getDbTableName();
 	}
 }

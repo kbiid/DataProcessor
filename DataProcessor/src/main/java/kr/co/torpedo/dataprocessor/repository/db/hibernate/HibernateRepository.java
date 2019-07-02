@@ -1,4 +1,4 @@
-package kr.co.torpedo.dataprocessor.processor.db.hibernate;
+package kr.co.torpedo.dataprocessor.repository.db.hibernate;
 
 import java.util.List;
 
@@ -15,13 +15,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.processor.UserRepository;
+import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class HibernateRepository extends UserRepository {
 	public static final Logger invalidFileLogger = LoggerFactory.getLogger(HibernateRepository.class);
 	private SessionFactory sessionFactory;
 	private Session session;
 	private Transaction tx;
+
+	public HibernateRepository() {
+		sessionFactory = HibernateConnectionFactory.getSessionFactory();
+	}
 
 	@Override
 	public void insert() {
@@ -69,27 +73,21 @@ public class HibernateRepository extends UserRepository {
 	}
 
 	@Override
-	public void update() {
+	public void update(int index) {
 		session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		User user;
-		for (int i = 0; i < indexArray.length; i++) {
-			user = (User) session.get(User.class, indexArray[i]);
-			user.setEmail("aa@naver.com");
-			session.update(user);
-		}
+		User user = (User) session.get(User.class, index);
+		user.setEmail("aa@naver.com");
+		session.update(user);
 		tx.commit();
 	}
 
 	@Override
-	public void delete() {
+	public void delete(int index) {
 		session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		User user;
-		for (int i = minIndex; i <= maxIndex; i++) {
-			user = (User) session.get(User.class, i);
-			session.delete(user);
-		}
+		User user = (User) session.get(User.class, index);
+		session.delete(user);
 		tx.commit();
 	}
 
@@ -108,10 +106,5 @@ public class HibernateRepository extends UserRepository {
 	@Override
 	public void truncate() {
 		truncateTable();
-	}
-
-	@Override
-	public void initDB() {
-		sessionFactory = HibernateConnectionFactory.getSessionFactory();
 	}
 }

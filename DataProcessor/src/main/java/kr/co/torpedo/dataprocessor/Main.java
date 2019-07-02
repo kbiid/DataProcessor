@@ -3,9 +3,10 @@ package kr.co.torpedo.dataprocessor;
 import java.io.File;
 
 import kr.co.torpedo.dataprocessor.config.ConfigReader;
-import kr.co.torpedo.dataprocessor.processor.JSONParser;
-import kr.co.torpedo.dataprocessor.processor.UserRepository;
-import kr.co.torpedo.dataprocessor.processor.RepositoryFactory;
+import kr.co.torpedo.dataprocessor.repository.JSONParser;
+import kr.co.torpedo.dataprocessor.repository.RepositoryFactory;
+import kr.co.torpedo.dataprocessor.repository.RepositoryHandler;
+import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class Main {
 	public static void main(String[] args) {
@@ -14,22 +15,23 @@ public class Main {
 		jsonParser.setLogFile(getFile(configReader.getLogFilePath()));
 		jsonParser.setDataFile(getFile(configReader.getDatafilePath()));
 
-		UserRepository processor = RepositoryFactory.createProcessor(configReader.getProcessorType());
-		processor.setConfigReader(configReader);
-		processor.setJsonParser(jsonParser);
+		UserRepository repository = RepositoryFactory.createProcessor(configReader.getProcessorType());
+		repository.setJsonParser(jsonParser);
+		RepositoryHandler handler = new RepositoryHandler();
+		handler.setConfigReader(configReader);
+		handler.setUserRepository(RepositoryFactory.createProcessor(configReader.getProcessorType()));
 
-		processor.initDB();
-		processor.readData();
-		processor.truncate();
-		processor.insert();
-		processor.writeLog();
+		handler.readData();
+		handler.truncate();
+		handler.insert();
+		handler.writeLog();
 
-		processor.setIndexArray();
-		processor.setMinMaxIndex();
-		processor.update();
-		processor.delete();
+		handler.setIndexArray();
+		handler.setMinMaxIndex();
+		handler.update();
+		handler.delete();
 
-		processor.writeLog();
+		handler.writeLog();
 	}
 
 	public static File getFile(String path) {

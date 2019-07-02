@@ -1,4 +1,4 @@
-package kr.co.torpedo.dataprocessor.processor.db.jdbc;
+package kr.co.torpedo.dataprocessor.repository.db.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,17 +10,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.processor.UserRepository;
+import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class JDBCRepository extends UserRepository {
 	private static final Logger invalidFileLogger = LoggerFactory.getLogger(JDBCRepository.class);
-	private String url, userId, dbPw, dbTableName, className;
+	private String className;
+
+	public JDBCRepository() {
+		className = "org.mariadb.jdbc.Driver";
+	}
 
 	private void truncateTable() throws SQLException {
 		invalidFileLogger.info("JDBCProcessor truncateTable start!");
-		String sql = "TRUNCATE " + dbTableName;
+		String sql = "TRUNCATE " + tableName;
 
-		try (Connection con = DriverManager.getConnection(url, userId, dbPw);
+		try (Connection con = DriverManager.getConnection(url, id, pwd);
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			Class.forName(className);
 			pstmt.executeUpdate();
@@ -32,8 +36,8 @@ public class JDBCRepository extends UserRepository {
 
 	private void insertUserToDB(User user) {
 		invalidFileLogger.info("JDBCProcessor insert data to table start!");
-		String sql = "insert into " + dbTableName + " values(?,?,?,?,?,?)";
-		try (Connection con = DriverManager.getConnection(url, userId, dbPw);
+		String sql = "insert into " + tableName + " values(?,?,?,?,?,?)";
+		try (Connection con = DriverManager.getConnection(url, id, pwd);
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			Class.forName(className);
 			pstmt.setInt(1, user.getId());
@@ -50,10 +54,10 @@ public class JDBCRepository extends UserRepository {
 
 	private void selectAllUserAndWriteLog() throws SQLException {
 		invalidFileLogger.info("JDBCProcessor select data start!");
-		String sql = "select * from " + dbTableName;
+		String sql = "select * from " + tableName;
 		User user = null;
 
-		try (Connection con = DriverManager.getConnection(url, userId, dbPw);
+		try (Connection con = DriverManager.getConnection(url, id, pwd);
 				PreparedStatement pstmt = con.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery()) {
 			Class.forName(className);
@@ -67,19 +71,11 @@ public class JDBCRepository extends UserRepository {
 		}
 	}
 
-	private void initDBData() {
-		invalidFileLogger.info("JDBCProcessor initDBData");
-		url = configReader.getDbUrl();
-		userId = configReader.getDbUserId();
-		dbPw = configReader.getDbPw();
-		dbTableName = configReader.getDbTableName();
-	}
-
 	private void updateData(int index) {
 		invalidFileLogger.info("JDBCProcessor update data start!");
-		String sql = "update " + dbTableName + " set email=? where id=?";
+		String sql = "update " + tableName + " set email=? where id=?";
 
-		try (Connection con = DriverManager.getConnection(url, userId, dbPw);
+		try (Connection con = DriverManager.getConnection(url, id, pwd);
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			Class.forName(className);
 
@@ -92,16 +88,14 @@ public class JDBCRepository extends UserRepository {
 	}
 
 	@Override
-	public void update() {
-		for (int i = 0; i < indexArray.length; i++) {
-			updateData(indexArray[i]);
-		}
+	public void update(int index) {
+		updateData(index);
 	}
 
 	private void deleteData(int index) {
 		invalidFileLogger.info("JDBCProcessor delete data start!");
-		String sql = "delete from " + dbTableName + " where id=?";
-		try (Connection con = DriverManager.getConnection(url, userId, dbPw);
+		String sql = "delete from " + tableName + " where id=?";
+		try (Connection con = DriverManager.getConnection(url, id, pwd);
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			Class.forName(className);
 			pstmt.setInt(1, index);
@@ -112,10 +106,8 @@ public class JDBCRepository extends UserRepository {
 	}
 
 	@Override
-	public void delete() {
-		for (int i = minIndex; i <= maxIndex; i++) {
-			deleteData(i);
-		}
+	public void delete(int index) {
+		deleteData(index);
 	}
 
 	@Override
@@ -141,11 +133,5 @@ public class JDBCRepository extends UserRepository {
 		} catch (SQLException e) {
 			invalidFileLogger.error("JDBCProcessor cleraDB Method error!" + e);
 		}
-	}
-
-	@Override
-	public void initDB() {
-		className = "org.mariadb.jdbc.Driver";
-		initDBData();
 	}
 }

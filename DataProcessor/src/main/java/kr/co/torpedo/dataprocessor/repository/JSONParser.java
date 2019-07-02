@@ -1,4 +1,4 @@
-package kr.co.torpedo.dataprocessor.processor;
+package kr.co.torpedo.dataprocessor.repository;
 
 import java.io.BufferedWriter;
 import java.io.File;

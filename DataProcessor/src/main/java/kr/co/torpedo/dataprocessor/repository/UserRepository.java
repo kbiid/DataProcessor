@@ -1,4 +1,4 @@
-package kr.co.torpedo.dataprocessor.processor;
+package kr.co.torpedo.dataprocessor.repository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,40 +6,31 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import kr.co.torpedo.dataprocessor.config.ConfigReader;
 import kr.co.torpedo.dataprocessor.domain.User;
 
 public abstract class UserRepository {
 	public static final Logger invalidFileLogger = LoggerFactory.getLogger(UserRepository.class);
-	protected ConfigReader configReader;
 	protected JSONParser jsonParser;
-	protected int[] indexArray;
-	protected int minIndex, maxIndex;
+	protected String url, id, pwd, tableName;
 
 	public void setJsonParser(JSONParser jsonParser) {
 		this.jsonParser = jsonParser;
 	}
 
-	public void setConfigReader(ConfigReader configReader) {
-		this.configReader = configReader;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
-	public void setMinMaxIndex() {
-		minIndex = configReader.getDeleteIndexMin();
-		maxIndex = configReader.getDeleteIndexMax();
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public void readData() {
-		jsonParser.unmarshal();
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 
-	public void setIndexArray() {
-		String str = configReader.getUpdateIndexesString();
-		String[] array = str.split(",");
-		indexArray = new int[array.length];
-		for (int i = 0; i < array.length; i++) {
-			indexArray[i] = Integer.parseInt(array[i]);
-		}
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
 	}
 
 	public void insert() {
@@ -60,15 +51,17 @@ public abstract class UserRepository {
 		}
 	}
 
-	public abstract void update();
+	public void readData() {
+		jsonParser.unmarshal();
+	}
 
-	public abstract void delete();
+	public abstract void update(int index);
+
+	public abstract void delete(int index);
 
 	public abstract void save(User user);
 
 	public abstract void writeLog();
 
 	public abstract void truncate();
-
-	public abstract void initDB();
 }

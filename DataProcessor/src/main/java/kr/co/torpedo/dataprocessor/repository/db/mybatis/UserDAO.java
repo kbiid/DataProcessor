@@ -1,4 +1,4 @@
-package kr.co.torpedo.dataprocessor.processor.db.mybatis;
+package kr.co.torpedo.dataprocessor.repository.db.mybatis;
 
 import java.util.ArrayList;
 

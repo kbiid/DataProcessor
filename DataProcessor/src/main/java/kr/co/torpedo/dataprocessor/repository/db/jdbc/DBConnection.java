@@ -1,4 +1,4 @@
-package kr.co.torpedo.dataprocessor.processor.db.jdbc;
+package kr.co.torpedo.dataprocessor.repository.db.jdbc;
 
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import kr.co.torpedo.dataprocessor.processor.UserRepository;
+import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class DBConnection {
 	private static DataSource dataSource;

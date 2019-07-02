@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import kr.co.torpedo.dataprocessor.config.ConfigReader;
 import kr.co.torpedo.dataprocessor.domain.User;
 import kr.co.torpedo.dataprocessor.manager.FileManager;
 
-public abstract class ProcessorCommon {
-	public static final Logger invalidFileLogger = LoggerFactory.getLogger("log.invalid");
+public abstract class Processor {
+	public static final Logger invalidFileLogger = LoggerFactory.getLogger(Processor.class);
 	protected ConfigReader configReader;
 	protected FileManager fileManager;
 	protected JSONParser jsonParser;
@@ -18,7 +21,7 @@ public abstract class ProcessorCommon {
 	protected int[] indexArray;
 	protected int minIndex, maxIndex;
 
-	public ProcessorCommon() {
+	public Processor() {
 		userList = new ArrayList<>();
 	}
 
@@ -39,17 +42,15 @@ public abstract class ProcessorCommon {
 		maxIndex = configReader.getDeleteIndexMax();
 	}
 
-	public void readDataAndSetList() {
+	public void readData() {
 		if (!fileManager.checkDataFile()) {// 데이터 파일이 정상적으로 존재하는 경우
 			try {
 				throw new Exception("data file not exist!");
 			} catch (Exception e) {
-				ProcessorCommon.invalidFileLogger.error("data file not exist!");
-				e.printStackTrace();
+				invalidFileLogger.error("data file not exist!");
 			}
 		}
-		jsonParser.unmarshalData(fileManager.getDataFile());
-		userList = jsonParser.getUserList();
+		jsonParser.unmarshal(fileManager.getDataFile());
 	}
 
 	public void setIndexArray() {
@@ -61,18 +62,33 @@ public abstract class ProcessorCommon {
 		}
 	}
 
-//	public void writeDataToLogFile() {
-//		jsonParser.setUserList(userList);
-//		jsonParser.marshalData();
-//	}
+	public void insertDB() {
+		User user;
+
+		JsonArray array = jsonParser.getJsonArray();
+		for (int i = 0; i < array.size(); i++) {
+			JsonObject jobj = (JsonObject) array.get(i);
+			int id = Integer.parseInt(jobj.get("id").toString());
+			String firstName = jobj.get("first_name").toString();
+			String lastName = jobj.get("last_name").toString();
+			String email = jobj.get("email").toString();
+			String gender = jobj.get("gender").toString();
+			String ipAddress = jobj.get("ip_address").toString();
+			user = new User(id, firstName, lastName, email, gender, ipAddress);
+
+			save(user);
+		}
+	}
 
 	public abstract void changeDataByIndexArray();
 
 	public abstract void deleteDataByMinMaxIndex();
 
-	public abstract void saveData();
+	public abstract void save(User user);
 
 	public abstract void savedDataWriteLog();
 
 	public abstract void clearDB();
+
+	public abstract void initDB();
 }

@@ -10,4 +10,8 @@ public interface UserDAO {
 	public void truncateTable();
 
 	public void insertUserToDB(User user);
+
+	public void updateDB(String email, int id);
+
+	public void deleteData(int id);
 }

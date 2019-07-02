@@ -10,15 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
+import kr.co.torpedo.dataprocessor.processor.Processor;
 
-public class JDBCProcessor extends ProcessorCommon {
+public class JDBCProcessor extends Processor {
 	private static final Logger invalidFileLogger = LoggerFactory.getLogger(JDBCProcessor.class);
 	private String url, userId, dbPw, dbTableName, className;
-
-	public JDBCProcessor() {
-		className = "org.mariadb.jdbc.Driver";
-	}
 
 	private void truncateTable() throws SQLException {
 		invalidFileLogger.info("JDBCProcessor truncateTable start!");
@@ -31,25 +27,22 @@ public class JDBCProcessor extends ProcessorCommon {
 			con.commit();
 		} catch (ClassNotFoundException e) {
 			invalidFileLogger.error("JDBCProcessor truncateTable error: " + e);
-			e.printStackTrace();
 		}
 	}
 
-	private void insertUserToDB() {
+	private void insertUserToDB(User user) {
 		invalidFileLogger.info("JDBCProcessor insert data to table start!");
 		String sql = "insert into " + dbTableName + " values(?,?,?,?,?,?)";
 		try (Connection con = DriverManager.getConnection(url, userId, dbPw);
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			Class.forName(className);
-			for (User user : userList) {
-				pstmt.setInt(1, user.getId());
-				pstmt.setString(2, user.getFirst_name());
-				pstmt.setString(3, user.getLast_name());
-				pstmt.setString(4, user.getEmail());
-				pstmt.setString(5, user.getGender());
-				pstmt.setString(6, user.getIp_address());
-				pstmt.executeUpdate();
-			}
+			pstmt.setInt(1, user.getId());
+			pstmt.setString(2, user.getFirst_name());
+			pstmt.setString(3, user.getLast_name());
+			pstmt.setString(4, user.getEmail());
+			pstmt.setString(5, user.getGender());
+			pstmt.setString(6, user.getIp_address());
+			pstmt.executeUpdate();
 		} catch (ClassNotFoundException e) {
 			invalidFileLogger.error("JDBCProcessor insert data to table error: " + e);
 		} catch (SQLException e1) {
@@ -69,7 +62,7 @@ public class JDBCProcessor extends ProcessorCommon {
 			while (rs.next()) {
 				user = new User(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
 						rs.getString("email"), rs.getString("gender"), rs.getString("ip_address"));
-				jsonParser.marshalData(user);
+				jsonParser.marshal(user);
 			}
 		} catch (ClassNotFoundException e) {
 			invalidFileLogger.error("JDBCProcessor select data error" + e);
@@ -111,7 +104,7 @@ public class JDBCProcessor extends ProcessorCommon {
 
 	private void deleteData(int index) {
 		invalidFileLogger.info("JDBCProcessor delete data start!");
-		String sql = "delete from " + dbTableName +" where id=?";
+		String sql = "delete from " + dbTableName + " where id=?";
 		try (Connection con = DriverManager.getConnection(url, userId, dbPw);
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			Class.forName(className);
@@ -132,9 +125,9 @@ public class JDBCProcessor extends ProcessorCommon {
 	}
 
 	@Override
-	public void saveData() {
+	public void save(User user) {
 		invalidFileLogger.info("JDBCProcessor save data");
-		insertUserToDB();
+		insertUserToDB(user);
 	}
 
 	@Override
@@ -149,11 +142,16 @@ public class JDBCProcessor extends ProcessorCommon {
 
 	@Override
 	public void clearDB() {
-		initDBData();
 		try {
 			truncateTable();
 		} catch (SQLException e) {
 			invalidFileLogger.error("JDBCProcessor cleraDB Method error!" + e);
 		}
+	}
+
+	@Override
+	public void initDB() {
+		className = "org.mariadb.jdbc.Driver";
+		initDBData();
 	}
 }

@@ -2,16 +2,15 @@ package kr.co.torpedo.dataprocessor.processor.memory;
 
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
+import kr.co.torpedo.dataprocessor.processor.Processor;
 
-public class MemoryProcessor extends ProcessorCommon {
+public class MemoryProcessor extends Processor {
+	public static final Logger invalidFileLogger = LoggerFactory.getLogger(MemoryProcessor.class);
 	private HashMap<Integer, User> userHashMap;
-
-	public MemoryProcessor() {
-		super();
-		userHashMap = new HashMap<>();
-	}
 
 	@Override
 	public void changeDataByIndexArray() {
@@ -32,11 +31,9 @@ public class MemoryProcessor extends ProcessorCommon {
 	}
 
 	@Override
-	public void saveData() {
-		ProcessorCommon.invalidFileLogger.info("MemoryProcessor save data start!");
-		for (User user : userList) {
-			userHashMap.put(user.getId(), user);
-		}
+	public void save(User user) {
+		invalidFileLogger.info("MemoryProcessor save data start!");
+		userHashMap.put(user.getId(), user);
 	}
 
 	@Override
@@ -45,14 +42,16 @@ public class MemoryProcessor extends ProcessorCommon {
 		userList.clear();
 
 		for (int i : userHashMap.keySet()) {
-//			userList.add(userHashMap.get(i));
-			jsonParser.marshalData(userHashMap.get(i));
+			jsonParser.marshal(userHashMap.get(i));
 		}
 	}
 
 	@Override
 	public void clearDB() {
-		// TODO Auto-generated method stub
-		
+	}
+
+	@Override
+	public void initDB() {
+		userHashMap = new HashMap<>();
 	}
 }

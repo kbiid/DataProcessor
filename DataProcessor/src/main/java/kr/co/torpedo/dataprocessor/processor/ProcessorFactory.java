@@ -7,8 +7,8 @@ import kr.co.torpedo.dataprocessor.processor.db.mybatis.MYBATISProcessor;
 import kr.co.torpedo.dataprocessor.processor.memory.MemoryProcessor;
 
 public class ProcessorFactory {
-	public static ProcessorCommon createProcessor(String str) {
-		ProcessorCommon processor = null;
+	public static Processor createProcessor(String str) {
+		Processor processor = null;
 		switch (str.toLowerCase()) {
 		case "memory":
 			processor = new MemoryProcessor();

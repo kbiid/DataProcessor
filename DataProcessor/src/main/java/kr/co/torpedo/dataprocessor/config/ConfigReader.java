@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
+import kr.co.torpedo.dataprocessor.processor.Processor;
 
 public class ConfigReader {
 	private Properties properties;
@@ -31,7 +31,7 @@ public class ConfigReader {
 
 	public String getProcessorType() {
 		if (properties == null || !properties.containsKey("processor.type")) {
-			ProcessorCommon.invalidFileLogger.error("properties가 null이거나 processor.type키가 없습니다.");
+			Processor.invalidFileLogger.error("properties가 null이거나 processor.type키가 없습니다.");
 			throw new NullPointerException("properties가 null이거나 processor.type키가 없습니다.");
 		}
 		return properties.get("processor.type").toString();
@@ -39,7 +39,7 @@ public class ConfigReader {
 
 	public String getDatafilePath() {
 		if (properties == null || !properties.containsKey("datafile.path")) {
-			ProcessorCommon.invalidFileLogger.error("properties가 null이거나 datafile.path키가 없습니다.");
+			Processor.invalidFileLogger.error("properties가 null이거나 datafile.path키가 없습니다.");
 			throw new NullPointerException("properties가 null이거나 datafile.path키가 없습니다.");
 		}
 		return properties.get("datafile.path").toString();
@@ -47,7 +47,7 @@ public class ConfigReader {
 
 	public String getUpdateIndexesString() {
 		if (properties == null || !properties.containsKey("data.updateindexes")) {
-			ProcessorCommon.invalidFileLogger.error("properties가 null이거나 data.updateindexes키가 없습니다.");
+			Processor.invalidFileLogger.error("properties가 null이거나 data.updateindexes키가 없습니다.");
 			throw new NullPointerException("properties가 null이거나 data.updateindexes키가 없습니다.");
 		}
 		return properties.get("data.updateindexes").toString();
@@ -55,7 +55,7 @@ public class ConfigReader {
 
 	public int getDeleteIndexMin() {
 		if (properties == null || !properties.containsKey("data.deleteindex.min")) {
-			ProcessorCommon.invalidFileLogger.error("properties가 null이거나 data.deleteindex.min키가 없습니다.");
+			Processor.invalidFileLogger.error("properties가 null이거나 data.deleteindex.min키가 없습니다.");
 			throw new NullPointerException("properties가 null이거나 data.deleteindex.min키가 없습니다.");
 		}
 		return Integer.parseInt(properties.get("data.deleteindex.min").toString());
@@ -63,7 +63,7 @@ public class ConfigReader {
 
 	public int getDeleteIndexMax() {
 		if (properties == null || !properties.containsKey("data.deleteindex.max")) {
-			ProcessorCommon.invalidFileLogger.error("properties가 null이거나 data.deleteindex.max키가 없습니다.");
+			Processor.invalidFileLogger.error("properties가 null이거나 data.deleteindex.max키가 없습니다.");
 			throw new NullPointerException("properties가 null이거나 data.deleteindex.max키가 없습니다.");
 		}
 		return Integer.parseInt(properties.get("data.deleteindex.max").toString());
@@ -71,7 +71,7 @@ public class ConfigReader {
 
 	public String getLogFilePath() {
 		if (properties == null || !properties.containsKey("logfile.path")) {
-			ProcessorCommon.invalidFileLogger.error("properties가 null이거나 logfile.path키가 없습니다.");
+			Processor.invalidFileLogger.error("properties가 null이거나 logfile.path키가 없습니다.");
 			throw new NullPointerException("properties가 null이거나 logfile.path키가 없습니다.");
 		}
 		return properties.get("logfile.path").toString();
@@ -79,7 +79,7 @@ public class ConfigReader {
 
 	public String getDbUrl() {
 		if (properties == null || !properties.containsKey("db.url")) {
-			ProcessorCommon.invalidFileLogger.error("properties가 null이거나 db.url키가 없습니다.");
+			Processor.invalidFileLogger.error("properties가 null이거나 db.url키가 없습니다.");
 			throw new NullPointerException("properties가 null이거나 db.url키가 없습니다.");
 		}
 		return properties.get("db.url").toString();
@@ -87,7 +87,7 @@ public class ConfigReader {
 
 	public String getDbUserId() {
 		if (properties == null || !properties.containsKey("db.userid")) {
-			ProcessorCommon.invalidFileLogger.error("properties가 null이거나 db.userid키가 없습니다.");
+			Processor.invalidFileLogger.error("properties가 null이거나 db.userid키가 없습니다.");
 			throw new NullPointerException("properties가 null이거나 db.userid키가 없습니다.");
 		}
 		return properties.get("db.userid").toString();
@@ -95,7 +95,7 @@ public class ConfigReader {
 
 	public String getDbPw() {
 		if (properties == null || !properties.containsKey("db.pw")) {
-			ProcessorCommon.invalidFileLogger.error("properties가 null이거나 db.pw키가 없습니다.");
+			Processor.invalidFileLogger.error("properties가 null이거나 db.pw키가 없습니다.");
 			throw new NullPointerException("properties가 null이거나 db.pw키가 없습니다.");
 		}
 		return properties.get("db.pw").toString();
@@ -103,7 +103,7 @@ public class ConfigReader {
 
 	public String getDbTableName() {
 		if (properties == null || !properties.containsKey("db.tablename")) {
-			ProcessorCommon.invalidFileLogger.error("properties가 null이거나 db.tablename키가 없습니다.");
+			Processor.invalidFileLogger.error("properties가 null이거나 db.tablename키가 없습니다.");
 			throw new NullPointerException("properties가 null이거나 db.tablename키가 없습니다.");
 		}
 		return properties.get("db.tablename").toString();

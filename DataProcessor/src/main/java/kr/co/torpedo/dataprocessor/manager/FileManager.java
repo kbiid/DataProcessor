@@ -2,7 +2,7 @@ package kr.co.torpedo.dataprocessor.manager;
 
 import java.io.File;
 
-import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
+import kr.co.torpedo.dataprocessor.processor.Processor;
 
 public class FileManager {
 	private File dataFile;
@@ -13,10 +13,10 @@ public class FileManager {
 
 	public boolean checkDataFile() {
 		if (!dataFile.exists()) { // 파일이 없는 경우
-			ProcessorCommon.invalidFileLogger.info("File exist");
+			Processor.invalidFileLogger.info("File exist");
 			return false;
 		} else {
-			ProcessorCommon.invalidFileLogger.info("File exist");
+			Processor.invalidFileLogger.info("File exist");
 			return true;
 		}
 	}

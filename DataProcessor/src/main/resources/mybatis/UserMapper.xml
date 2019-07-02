@@ -27,4 +27,12 @@
 	<insert id="insertUserToDB" parameterType="User">
 		insert into user values(#{id},#{first_name},#{last_name},#{email},#{gender},#{ip_address});
 	</insert>
+	
+	<update id="updateDB" parameterType="String email; int id" >
+		update user set email=#{email} where id=#{id};
+	</update>
+	
+	<delete id="deleteData" parameterType="int">
+		delete from user where id=#{id};
+	</delete>
 </mapper>

@@ -3,7 +3,7 @@ package kr.co.torpedo.dataprocessor;
 import kr.co.torpedo.dataprocessor.config.ConfigReader;
 import kr.co.torpedo.dataprocessor.manager.FileManager;
 import kr.co.torpedo.dataprocessor.processor.JSONParser;
-import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
+import kr.co.torpedo.dataprocessor.processor.Processor;
 import kr.co.torpedo.dataprocessor.processor.ProcessorFactory;
 
 public class Main {
@@ -14,15 +14,15 @@ public class Main {
 		fileManager.makeDataFile(configReader.getDatafilePath());
 		jsonParser.setLogFile(configReader.getLogFilePath());
 
-		ProcessorCommon processor = ProcessorFactory.createProcessor(configReader.getProcessorType());
+		Processor processor = ProcessorFactory.createProcessor(configReader.getProcessorType());
 		processor.setConfigReader(configReader);
 		processor.setFileManager(fileManager);
 		processor.setJsonParser(jsonParser);
 
-		processor.readDataAndSetList();
+		processor.initDB();
+		processor.readData();
 		processor.clearDB();
-		processor.saveData();
-//		processor.writeDataToLogFile();
+		processor.insertDB();
 		processor.savedDataWriteLog();
 
 		processor.setIndexArray();
@@ -31,6 +31,5 @@ public class Main {
 		processor.deleteDataByMinMaxIndex();
 
 		processor.savedDataWriteLog();
-//		processor.writeDataToLogFile();
 	}
 }

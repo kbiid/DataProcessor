@@ -5,44 +5,46 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
+import kr.co.torpedo.dataprocessor.processor.Processor;
 
-public class HibernateProcessor extends ProcessorCommon {
+public class HibernateProcessor extends Processor {
+	public static final Logger invalidFileLogger = LoggerFactory.getLogger(HibernateProcessor.class);
 	private SessionFactory sessionFactory;
 	private Session session;
+	private Transaction tx;
 
-	public HibernateProcessor() {
-		sessionFactory = HibernateConnectionFactory.getSessionFactory();
-	}
-
-	@SuppressWarnings("rawtypes")
-	private void insertUserToDB() {
-		ProcessorCommon.invalidFileLogger.info("HieranteProcessor insertData start!");
+	@Override
+	public void insertDB() {
 		session = sessionFactory.openSession();
-		Transaction tx = null;
-		Query query = null;
-		truncateTable();
+		User user;
 
+		JsonArray array = jsonParser.getJsonArray();
 		tx = session.beginTransaction();
-		for (User user : userList) {
-			query = session.createSQLQuery("insert into user_tb values(?,?,?,?,?,?)");
-			query.setParameter(1, user.getId());
-			query.setParameter(2, user.getFirst_name());
-			query.setParameter(3, user.getLast_name());
-			query.setParameter(4, user.getEmail());
-			query.setParameter(5, user.getGender());
-			query.setParameter(6, user.getIp_address());
-			query.executeUpdate();
+		for (int i = 0; i < array.size(); i++) {
+			JsonObject jobj = (JsonObject) array.get(i);
+			int id = Integer.parseInt(jobj.get("id").toString());
+			String firstName = jobj.get("first_name").toString();
+			String lastName = jobj.get("last_name").toString();
+			String email = jobj.get("email").toString();
+			String gender = jobj.get("gender").toString();
+			String ipAddress = jobj.get("ip_address").toString();
+			user = new User(id, firstName, lastName, email, gender, ipAddress);
+
+			session.save(user);
 		}
 		tx.commit();
 		session.close();
 	}
 
 	private void truncateTable() {
-		ProcessorCommon.invalidFileLogger.info("HieranteProcessor truncateTable start!");
+		invalidFileLogger.info("HieranteProcessor truncateTable start!");
 		session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		session.createQuery("delete from User").executeUpdate();
@@ -51,49 +53,61 @@ public class HibernateProcessor extends ProcessorCommon {
 
 	@SuppressWarnings("unchecked")
 	private void selectUserFromDB() {
-		ProcessorCommon.invalidFileLogger.info("HieranteProcessor selecteData start!");
+		invalidFileLogger.info("HieranteProcessor selecteData start!");
 		userList.clear();
 		session = sessionFactory.openSession();
 		session.beginTransaction();
 
-		List<User> list = (List<User>) session.createSQLQuery("select * from user_tb").addEntity(User.class).list();
+		List<User> list = (List<User>) session.createQuery("from user_tb").list();
 		for (User user : list) {
-			userList.add(user);
+			jsonParser.marshal(user);
 		}
 	}
 
 	@Override
 	public void changeDataByIndexArray() {
+		session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		User user;
 		for (int i = 0; i < indexArray.length; i++) {
-			userList.get(indexArray[i] - 1).setEmail("aa@naver.com");
+			user = (User) session.get(User.class, indexArray[i]);
+			user.setEmail("aa@naver.com");
+			session.update(user);
 		}
+		tx.commit();
 	}
 
 	@Override
 	public void deleteDataByMinMaxIndex() {
+		session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		User user;
 		for (int i = minIndex; i <= maxIndex; i++) {
-			userList.remove(minIndex - 1);
+			user = (User) session.get(User.class, i);
+			session.delete(user);
 		}
+		tx.commit();
 	}
 
 	@Override
-	public void saveData() {
-		ProcessorCommon.invalidFileLogger.info("HieranteProcessor saveData method start!");
-		insertUserToDB();
+	public void save(User user) {
+		invalidFileLogger.info("HieranteProcessor saveData method start!");
+		session.save(user);
 	}
 
 	@Override
 	public void savedDataWriteLog() {
-		ProcessorCommon.invalidFileLogger.info("HieranteProcessor setListSavedData method start!");
-		insertUserToDB();
-		userList.clear();
+		invalidFileLogger.info("HieranteProcessor setListSavedData method start!");
 		selectUserFromDB();
 	}
 
 	@Override
 	public void clearDB() {
-		// TODO Auto-generated method stub
-		
+		truncateTable();
 	}
 
+	@Override
+	public void initDB() {
+		sessionFactory = HibernateConnectionFactory.getSessionFactory();
+	}
 }

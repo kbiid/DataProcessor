@@ -1,54 +1,56 @@
 package kr.co.torpedo.dataprocessor.processor.db.mybatis;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.processor.ProcessorCommon;
+import kr.co.torpedo.dataprocessor.processor.Processor;
 
-public class MYBATISProcessor extends ProcessorCommon {
+public class MYBATISProcessor extends Processor {
+	public static final Logger invalidFileLogger = LoggerFactory.getLogger(MYBATISProcessor.class);
 	private SqlSession sqlSession;
 	private UserDAO userDao;
-
-	public MYBATISProcessor() {
-		sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession(true);
-		userDao = sqlSession.getMapper(UserDAO.class);
-	}
 
 	@Override
 	public void changeDataByIndexArray() {
 		for (int i = 0; i < indexArray.length; i++) {
-			userList.get(indexArray[i] - 1).setEmail("aa@naver.com");
+			userDao.updateDB("aa@naver.com", indexArray[i]);
 		}
 	}
 
 	@Override
 	public void deleteDataByMinMaxIndex() {
 		for (int i = minIndex; i <= maxIndex; i++) {
-			userList.remove(minIndex - 1);
+			userDao.deleteData(i);
 		}
 	}
 
 	@Override
-	public void saveData() {
-		userDao.truncateTable();
-		ProcessorCommon.invalidFileLogger.info("MTBATISProcessor saveData start!");
-		for (User user : userList) {
-			userDao.insertUserToDB(user);
-		}
-
+	public void save(User user) {
+		invalidFileLogger.info("MTBATISProcessor saveData start!");
+		userDao.insertUserToDB(user);
 	}
 
 	@Override
 	public void savedDataWriteLog() {
-		ProcessorCommon.invalidFileLogger.info("MTBATISProcessor setListSavedData start!");
-		saveData();
-		userList.clear();
-		userList = userDao.selectUserList();
+		invalidFileLogger.info("MTBATISProcessor setListSavedData start!");
+		ArrayList<User> list = userDao.selectUserList();
+		for (User user : list) {
+			jsonParser.marshal(user);
+		}
 	}
 
 	@Override
 	public void clearDB() {
-		// TODO Auto-generated method stub
-		
+		userDao.truncateTable();
+	}
+
+	@Override
+	public void initDB() {
+		sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession(true);
+		userDao = sqlSession.getMapper(UserDAO.class);
 	}
 }

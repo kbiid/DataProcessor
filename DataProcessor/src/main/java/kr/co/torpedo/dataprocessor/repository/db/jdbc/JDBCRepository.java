@@ -49,6 +49,7 @@ public class JDBCRepository extends UserRepository {
 			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
 			invalidFileLogger.error("JDBCProcessor insert data to table error: " + e);
+			System.out.println(e);
 		}
 	}
 

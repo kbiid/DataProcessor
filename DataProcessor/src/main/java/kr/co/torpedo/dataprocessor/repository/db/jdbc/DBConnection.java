@@ -1,9 +1,11 @@
 package kr.co.torpedo.dataprocessor.repository.db.jdbc;
 
 import java.beans.PropertyVetoException;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
+import java.util.PropertyResourceBundle;
 
 import javax.sql.DataSource;
 
@@ -19,11 +21,16 @@ public class DBConnection {
 	private static final String PWD;
 
 	static {
-		final ResourceBundle config = ResourceBundle.getBundle("main.resources.config");
+		PropertyResourceBundle p = null;
+		try (FileInputStream inputStream = new FileInputStream(System.getProperty("config.properties"))) {
+			p = new PropertyResourceBundle(inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		DRIVER_NAME = "org.mariadb.jdbc.Driver";
-		URL = config.getString("db.url");
-		USER_NAME = config.getString("db.userid");
-		PWD = config.getString("db.pw");
+		URL = p.getString("db.url");
+		USER_NAME = p.getString("db.userid");
+		PWD = p.getString("db.pw");
 		dataSource = setupDataSource();
 	}
 

@@ -1,7 +1,7 @@
 package kr.co.torpedo.dataprocessor.config;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -16,12 +16,8 @@ public class ConfigReader {
 		loadProp();
 	}
 
-	public Properties getProperties() {
-		return properties;
-	}
-
 	private void loadProp() {
-		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.properties")) {
+		try (FileInputStream inputStream = new FileInputStream(System.getProperty("config.properties"))) {
 			properties.load(inputStream);
 		} catch (IOException e) {
 			invalidFileLogger.error("error : " + e);

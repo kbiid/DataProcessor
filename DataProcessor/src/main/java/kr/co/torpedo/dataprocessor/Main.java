@@ -16,14 +16,14 @@ public class Main {
 		jsonParser.setDataFile(getFile(configReader.getDatafilePath()));
 
 		UserRepository repository = RepositoryFactory.createProcessor(configReader.getProcessorType());
-		repository.setJsonParser(jsonParser);
 		RepositoryHandler handler = new RepositoryHandler();
 		handler.setConfigReader(configReader);
 		handler.setUserRepository(repository);
+		handler.setJSONParser(jsonParser);
 
 		handler.setDBData();
 		handler.readData();
-		handler.truncate();
+		handler.getUserRepository().truncate();
 		handler.insert();
 		handler.writeLog();
 

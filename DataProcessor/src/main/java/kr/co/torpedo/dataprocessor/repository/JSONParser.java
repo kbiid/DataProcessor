@@ -44,6 +44,7 @@ public class JSONParser {
 	}
 
 	public void marshal(User user) {
+		invalidFileLogger.info("JSONSerializer marshal");
 		JsonObject jObj = null;
 		jObj = new JsonObject();
 		jObj.addProperty("id", user.getId());
@@ -68,6 +69,7 @@ public class JSONParser {
 	}
 
 	public void unmarshal() {
+		invalidFileLogger.info("JSONSerializer unmarshal");
 		JsonParser parser = new JsonParser();
 		try {
 			Object obj = parser.parse(new FileReader(dataFile));

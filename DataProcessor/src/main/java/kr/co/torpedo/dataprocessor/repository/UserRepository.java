@@ -10,12 +10,7 @@ import kr.co.torpedo.dataprocessor.domain.User;
 
 public abstract class UserRepository {
 	public static final Logger invalidFileLogger = LoggerFactory.getLogger(UserRepository.class);
-	protected JSONParser jsonParser;
 	protected String url, id, pwd, tableName;
-
-	public void setJsonParser(JSONParser jsonParser) {
-		this.jsonParser = jsonParser;
-	}
 
 	public void setUrl(String url) {
 		this.url = url;
@@ -33,10 +28,10 @@ public abstract class UserRepository {
 		this.tableName = tableName;
 	}
 
-	public void insert() {
+	public void insert(JsonArray array) {
+		invalidFileLogger.info("insert start!");
 		User user;
 
-		JsonArray array = jsonParser.getJsonArray();
 		for (int i = 0; i < array.size(); i++) {
 			JsonObject jobj = (JsonObject) array.get(i);
 			int id = Integer.parseInt(jobj.get("id").toString());
@@ -57,7 +52,7 @@ public abstract class UserRepository {
 
 	public abstract void save(User user);
 
-	public abstract void writeLog();
+	public abstract void writeLog(JSONParser jsonParser);
 
 	public abstract void truncate();
 }

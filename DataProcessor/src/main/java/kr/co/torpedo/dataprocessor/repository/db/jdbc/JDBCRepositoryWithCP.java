@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.torpedo.dataprocessor.domain.User;
+import kr.co.torpedo.dataprocessor.repository.JSONParser;
 import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class JDBCRepositoryWithCP extends UserRepository {
@@ -25,7 +26,7 @@ public class JDBCRepositoryWithCP extends UserRepository {
 
 	@Override
 	public void update(int index) {
-		invalidFileLogger.info("JDBCProcessor update data start!");
+		invalidFileLogger.info("JDBCProcessor update start!");
 		String sql = "update " + tableName + " set email=? where id=?";
 
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -33,26 +34,25 @@ public class JDBCRepositoryWithCP extends UserRepository {
 			pstmt.setInt(2, index);
 			pstmt.executeUpdate();
 		} catch (SQLException e1) {
-			invalidFileLogger.error("JDBCProcessor select data error" + e1);
+			invalidFileLogger.error("JDBCProcessor update error" + e1);
 		}
 	}
 
 	@Override
 	public void delete(int index) {
-		invalidFileLogger.info("JDBCProcessor delete data start!");
+		invalidFileLogger.info("JDBCProcessor delete start!");
 		String sql = "delete from " + tableName + " where id=?";
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, index);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			invalidFileLogger.error("JDBCProcessor select data error" + e);
+			invalidFileLogger.error("JDBCProcessor delete error" + e);
 		}
 	}
 
 	@Override
 	public void save(User user) {
-		invalidFileLogger.info("JDBCProcessorWithCP save data");
-		invalidFileLogger.info("JDBCProcessorWithCP insert data to table start!");
+		invalidFileLogger.info("JDBCProcessorWithCP save start!");
 		String sql = "insert into " + tableName + " values(?,?,?,?,?,?)";
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, user.getId());
@@ -63,14 +63,13 @@ public class JDBCRepositoryWithCP extends UserRepository {
 			pstmt.setString(6, user.getIp_address());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			invalidFileLogger.error("JDBCProcessorWithCP insert data to table error: " + e);
+			invalidFileLogger.error("JDBCProcessorWithCP save error: " + e);
 		}
 	}
 
 	@Override
-	public void writeLog() {
-		invalidFileLogger.info("JDBCProcessorWithCP set list for savedData");
-		invalidFileLogger.info("JDBCProcessorWithCP select data start!");
+	public void writeLog(JSONParser jsonParser) {
+		invalidFileLogger.info("JDBCProcessorWithCP writeLog start!");
 		String sql = "select * from " + tableName;
 		User user = null;
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -81,19 +80,19 @@ public class JDBCRepositoryWithCP extends UserRepository {
 				jsonParser.marshal(user);
 			}
 		} catch (SQLException e) {
-			invalidFileLogger.error("JDBCProcessorWithCP select data error: " + e);
+			invalidFileLogger.error("JDBCProcessorWithCP writeLog error: " + e);
 		}
 	}
 
 	@Override
 	public void truncate() {
-		invalidFileLogger.info("JDBCProcessorWithCP truncateTable start!");
+		invalidFileLogger.info("JDBCProcessorWithCP truncate start!");
 		String sql = "TRUNCATE " + tableName;
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.executeUpdate();
 			conn.commit();
 		} catch (SQLException e) {
-			invalidFileLogger.error("JDBCProcessorWithCP truncateTable error: " + e);
+			invalidFileLogger.error("JDBCProcessorWithCP truncate error: " + e);
 		}
 	}
 }

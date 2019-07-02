@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.torpedo.dataprocessor.domain.User;
+import kr.co.torpedo.dataprocessor.repository.JSONParser;
 import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class JDBCRepository extends UserRepository {
@@ -22,7 +23,7 @@ public class JDBCRepository extends UserRepository {
 
 	@Override
 	public void update(int index) {
-		invalidFileLogger.info("JDBCProcessor update data start!");
+		invalidFileLogger.info("JDBCProcessor update start!");
 		String sql = "update " + tableName + " set email=? where id=?";
 
 		try (Connection con = DriverManager.getConnection(url, id, pwd);
@@ -33,13 +34,13 @@ public class JDBCRepository extends UserRepository {
 			pstmt.setInt(2, index);
 			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
-			invalidFileLogger.error("JDBCProcessor select data error" + e);
+			invalidFileLogger.error("JDBCProcessor update error" + e);
 		}
 	}
 
 	@Override
 	public void delete(int index) {
-		invalidFileLogger.info("JDBCProcessor delete data start!");
+		invalidFileLogger.info("JDBCProcessor delete start!");
 		String sql = "delete from " + tableName + " where id=?";
 		try (Connection con = DriverManager.getConnection(url, id, pwd);
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -47,14 +48,13 @@ public class JDBCRepository extends UserRepository {
 			pstmt.setInt(1, index);
 			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
-			invalidFileLogger.error("JDBCProcessor select data error" + e);
+			invalidFileLogger.error("JDBCProcessor delete error" + e);
 		}
 	}
 
 	@Override
 	public void save(User user) {
-		invalidFileLogger.info("JDBCProcessor save data");
-		invalidFileLogger.info("JDBCProcessor insert data to table start!");
+		invalidFileLogger.info("JDBCProcessor save start!");
 		String sql = "insert into " + tableName + " values(?,?,?,?,?,?)";
 		try (Connection con = DriverManager.getConnection(url, id, pwd);
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -67,15 +67,14 @@ public class JDBCRepository extends UserRepository {
 			pstmt.setString(6, user.getIp_address());
 			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
-			invalidFileLogger.error("JDBCProcessor insert data to table error: " + e);
+			invalidFileLogger.error("JDBCProcessor save error: " + e);
 			System.out.println(e);
 		}
 	}
 
 	@Override
-	public void writeLog() {
-		invalidFileLogger.info("JDBCProcessor set list for savedData");
-		invalidFileLogger.info("JDBCProcessor select data start!");
+	public void writeLog(JSONParser jsonParser) {
+		invalidFileLogger.info("JDBCProcessor writeLog start!!");
 		String sql = "select * from " + tableName;
 		User user = null;
 
@@ -95,7 +94,7 @@ public class JDBCRepository extends UserRepository {
 
 	@Override
 	public void truncate() {
-		invalidFileLogger.info("JDBCProcessor truncateTable start!");
+		invalidFileLogger.info("JDBCProcessor truncate start!");
 		String sql = "TRUNCATE " + tableName;
 
 		try (Connection con = DriverManager.getConnection(url, id, pwd);
@@ -104,7 +103,7 @@ public class JDBCRepository extends UserRepository {
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (SQLException | ClassNotFoundException e) {
-			invalidFileLogger.error("JDBCProcessor truncateTable error: " + e);
+			invalidFileLogger.error("JDBCProcessor truncate error: " + e);
 		}
 	}
 }

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.torpedo.dataprocessor.domain.User;
+import kr.co.torpedo.dataprocessor.repository.JSONParser;
 import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class MYBATISRepository extends UserRepository {
@@ -18,26 +19,28 @@ public class MYBATISRepository extends UserRepository {
 		sqlSession = MyBatisConnectionFactory.getSqlSessionFactory().openSession(true);
 		userDao = sqlSession.getMapper(UserDAO.class);
 	}
-	
+
 	@Override
 	public void update(int index) {
+		invalidFileLogger.info("MTBATISProcessor update start!");
 		userDao.update("aa@naver.com", index);
 	}
 
 	@Override
 	public void delete(int index) {
+		invalidFileLogger.info("MTBATISProcessor delete start!");
 		userDao.delete(index);
 	}
 
 	@Override
 	public void save(User user) {
-		invalidFileLogger.info("MTBATISProcessor saveData start!");
+		invalidFileLogger.info("MTBATISProcessor save start!");
 		userDao.insert(user);
 	}
 
 	@Override
-	public void writeLog() {
-		invalidFileLogger.info("MTBATISProcessor setListSavedData start!");
+	public void writeLog(JSONParser jsonParser) {
+		invalidFileLogger.info("MTBATISProcessor writeLog start!");
 		ArrayList<User> list = userDao.selectAll();
 		for (User user : list) {
 			jsonParser.marshal(user);
@@ -46,6 +49,7 @@ public class MYBATISRepository extends UserRepository {
 
 	@Override
 	public void truncate() {
+		invalidFileLogger.info("MTBATISProcessor truncate start!");
 		userDao.truncate();
 	}
 }

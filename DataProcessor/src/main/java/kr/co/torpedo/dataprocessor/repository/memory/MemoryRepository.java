@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.torpedo.dataprocessor.domain.User;
+import kr.co.torpedo.dataprocessor.repository.JSONParser;
 import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class MemoryRepository extends UserRepository {
@@ -15,9 +16,10 @@ public class MemoryRepository extends UserRepository {
 	public MemoryRepository() {
 		userHashMap = new HashMap<>();
 	}
-	
+
 	@Override
 	public void update(int index) {
+		invalidFileLogger.info("MemoryProcessor update start!");
 		if (userHashMap.containsKey(index)) {
 			userHashMap.get(index).setEmail("aa@naver.com");
 		}
@@ -25,6 +27,7 @@ public class MemoryRepository extends UserRepository {
 
 	@Override
 	public void delete(int index) {
+		invalidFileLogger.info("MemoryProcessor delete start!");
 		if (userHashMap.containsKey(index)) {
 			userHashMap.remove(index);
 		}
@@ -32,14 +35,13 @@ public class MemoryRepository extends UserRepository {
 
 	@Override
 	public void save(User user) {
-		invalidFileLogger.info("MemoryProcessor save data start!");
+		invalidFileLogger.info("MemoryProcessor save start!");
 		userHashMap.put(user.getId(), user);
 	}
 
 	@Override
-	public void writeLog() {
-		invalidFileLogger.info("MemoryProcessor saved data set to list start!");
-
+	public void writeLog(JSONParser jsonParser) {
+		invalidFileLogger.info("MemoryProcessor writeLog start!");
 		for (int i : userHashMap.keySet()) {
 			jsonParser.marshal(userHashMap.get(i));
 		}
@@ -47,6 +49,7 @@ public class MemoryRepository extends UserRepository {
 
 	@Override
 	public void truncate() {
+		invalidFileLogger.info("MemoryProcessor truncate start!");
 		userHashMap.clear();
 	}
 }

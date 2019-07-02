@@ -67,18 +67,14 @@ public class RepositoryHandler {
 	}
 
 	public void insert() {
-		userRepository.insert();
+		userRepository.insert(jsonParser.getJsonArray());
 	}
 
 	public void readData() {
 		jsonParser.unmarshal();
 	}
 
-	public void truncate() {
-		userRepository.truncate();
-	}
-
 	public void writeLog() {
-		userRepository.writeLog();
+		userRepository.writeLog(jsonParser);
 	}
 }

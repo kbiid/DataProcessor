@@ -47,7 +47,7 @@ public class RepositoryHandler {
 
 	public void update() {
 		for (int i = 0; i < indexArray.length; i++) {
-			userRepository.update(i);
+			userRepository.update(indexArray[i]);
 		}
 	}
 

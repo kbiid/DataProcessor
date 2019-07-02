@@ -19,8 +19,9 @@ public class Main {
 		repository.setJsonParser(jsonParser);
 		RepositoryHandler handler = new RepositoryHandler();
 		handler.setConfigReader(configReader);
-		handler.setUserRepository(RepositoryFactory.createProcessor(configReader.getProcessorType()));
+		handler.setUserRepository(repository);
 
+		handler.setDBData();
 		handler.readData();
 		handler.truncate();
 		handler.insert();

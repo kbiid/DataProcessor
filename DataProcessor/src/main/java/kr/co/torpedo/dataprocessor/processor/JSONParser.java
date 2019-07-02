@@ -7,6 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
@@ -16,11 +19,24 @@ import com.google.gson.JsonSyntaxException;
 import kr.co.torpedo.dataprocessor.domain.User;
 
 public class JSONParser {
+	public static final Logger invalidFileLogger = LoggerFactory.getLogger(JSONParser.class);
 	private JsonArray jsonArray;
-	private File logFile;
+	private File logFile, dataFile;
 
-	public void setLogFile(String path) {
-		logFile = new File(path);
+	public void setLogFile(File logFile) {
+		this.logFile = logFile;
+	}
+
+	public File getDataFile() {
+		return dataFile;
+	}
+
+	public void setDataFile(File dataFile) {
+		this.dataFile = dataFile;
+	}
+
+	public File getLogFile() {
+		return logFile;
 	}
 
 	public JsonArray getJsonArray() {
@@ -46,18 +62,18 @@ public class JSONParser {
 			bw.write(str);
 			bw.write("\r\n");
 		} catch (IOException e) {
-			Processor.invalidFileLogger.error("JSONSerializer IOException : " + e);
+			invalidFileLogger.error("JSONSerializer IOException : " + e);
 			e.printStackTrace();
 		}
 	}
 
-	public void unmarshal(File file) {
+	public void unmarshal() {
 		JsonParser parser = new JsonParser();
 		try {
-			Object obj = parser.parse(new FileReader(file));
+			Object obj = parser.parse(new FileReader(dataFile));
 			jsonArray = (JsonArray) obj;
 		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
-			Processor.invalidFileLogger.error("JSONDeSerializer Exception : " + e);
+			invalidFileLogger.error("JSONDeSerializer Exception : " + e);
 		}
 	}
 }

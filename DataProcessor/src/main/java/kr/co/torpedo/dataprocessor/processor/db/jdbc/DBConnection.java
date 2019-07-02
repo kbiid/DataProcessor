@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import kr.co.torpedo.dataprocessor.processor.Processor;
+import kr.co.torpedo.dataprocessor.processor.UserRepository;
 
 public class DBConnection {
 	private static DataSource dataSource;
@@ -36,7 +36,7 @@ public class DBConnection {
 		try {
 			cdps.setDriverClass(DRIVER_NAME);
 		} catch (PropertyVetoException e) {
-			Processor.invalidFileLogger.error("DBConnection error : " + e);
+			UserRepository.invalidFileLogger.error("DBConnection error : " + e);
 			e.printStackTrace();
 		}
 		cdps.setJdbcUrl(URL);

@@ -1,7 +1,5 @@
 package kr.co.torpedo.dataprocessor.processor;
 
-import java.util.ArrayList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,20 +8,13 @@ import com.google.gson.JsonObject;
 
 import kr.co.torpedo.dataprocessor.config.ConfigReader;
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.manager.FileManager;
 
-public abstract class Processor {
-	public static final Logger invalidFileLogger = LoggerFactory.getLogger(Processor.class);
+public abstract class UserRepository {
+	public static final Logger invalidFileLogger = LoggerFactory.getLogger(UserRepository.class);
 	protected ConfigReader configReader;
-	protected FileManager fileManager;
 	protected JSONParser jsonParser;
-	protected ArrayList<User> userList;
 	protected int[] indexArray;
 	protected int minIndex, maxIndex;
-
-	public Processor() {
-		userList = new ArrayList<>();
-	}
 
 	public void setJsonParser(JSONParser jsonParser) {
 		this.jsonParser = jsonParser;
@@ -33,24 +24,13 @@ public abstract class Processor {
 		this.configReader = configReader;
 	}
 
-	public void setFileManager(FileManager fileManager) {
-		this.fileManager = fileManager;
-	}
-
 	public void setMinMaxIndex() {
 		minIndex = configReader.getDeleteIndexMin();
 		maxIndex = configReader.getDeleteIndexMax();
 	}
 
 	public void readData() {
-		if (!fileManager.checkDataFile()) {// 데이터 파일이 정상적으로 존재하는 경우
-			try {
-				throw new Exception("data file not exist!");
-			} catch (Exception e) {
-				invalidFileLogger.error("data file not exist!");
-			}
-		}
-		jsonParser.unmarshal(fileManager.getDataFile());
+		jsonParser.unmarshal();
 	}
 
 	public void setIndexArray() {
@@ -80,15 +60,15 @@ public abstract class Processor {
 		}
 	}
 
-	public abstract void changeDataByIndexArray();
+	public abstract void update();
 
-	public abstract void deleteDataByMinMaxIndex();
+	public abstract void delete();
 
 	public abstract void save(User user);
 
 	public abstract void savedDataWriteLog();
 
-	public abstract void clearDB();
+	public abstract void truncate();
 
 	public abstract void initDB();
 }

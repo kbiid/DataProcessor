@@ -10,10 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.processor.Processor;
+import kr.co.torpedo.dataprocessor.processor.UserRepository;
 
-public class JDBCProcessor extends Processor {
-	private static final Logger invalidFileLogger = LoggerFactory.getLogger(JDBCProcessor.class);
+public class JDBCRepository extends UserRepository {
+	private static final Logger invalidFileLogger = LoggerFactory.getLogger(JDBCRepository.class);
 	private String url, userId, dbPw, dbTableName, className;
 
 	private void truncateTable() throws SQLException {
@@ -43,10 +43,8 @@ public class JDBCProcessor extends Processor {
 			pstmt.setString(5, user.getGender());
 			pstmt.setString(6, user.getIp_address());
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			invalidFileLogger.error("JDBCProcessor insert data to table error: " + e);
-		} catch (SQLException e1) {
-			invalidFileLogger.error("JDBCProcessor insert data to table error: " + e1);
 		}
 	}
 
@@ -88,15 +86,13 @@ public class JDBCProcessor extends Processor {
 			pstmt.setString(1, "aa@naver.com");
 			pstmt.setInt(2, index);
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			invalidFileLogger.error("JDBCProcessor select data error" + e);
-		} catch (SQLException e1) {
-			invalidFileLogger.error("JDBCProcessor select data error" + e1);
 		}
 	}
 
 	@Override
-	public void changeDataByIndexArray() {
+	public void update() {
 		for (int i = 0; i < indexArray.length; i++) {
 			updateData(indexArray[i]);
 		}
@@ -110,15 +106,13 @@ public class JDBCProcessor extends Processor {
 			Class.forName(className);
 			pstmt.setInt(1, index);
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			invalidFileLogger.error("JDBCProcessor select data error" + e);
-		} catch (SQLException e1) {
-			invalidFileLogger.error("JDBCProcessor select data error" + e1);
 		}
 	}
 
 	@Override
-	public void deleteDataByMinMaxIndex() {
+	public void delete() {
 		for (int i = minIndex; i <= maxIndex; i++) {
 			deleteData(i);
 		}
@@ -141,7 +135,7 @@ public class JDBCProcessor extends Processor {
 	}
 
 	@Override
-	public void clearDB() {
+	public void truncate() {
 		try {
 			truncateTable();
 		} catch (SQLException e) {

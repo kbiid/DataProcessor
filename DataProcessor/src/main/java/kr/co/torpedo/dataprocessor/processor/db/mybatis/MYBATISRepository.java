@@ -7,22 +7,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.processor.Processor;
+import kr.co.torpedo.dataprocessor.processor.UserRepository;
 
-public class MYBATISProcessor extends Processor {
-	public static final Logger invalidFileLogger = LoggerFactory.getLogger(MYBATISProcessor.class);
+public class MYBATISRepository extends UserRepository {
+	public static final Logger invalidFileLogger = LoggerFactory.getLogger(MYBATISRepository.class);
 	private SqlSession sqlSession;
 	private UserDAO userDao;
 
 	@Override
-	public void changeDataByIndexArray() {
+	public void update() {
 		for (int i = 0; i < indexArray.length; i++) {
 			userDao.updateDB("aa@naver.com", indexArray[i]);
 		}
 	}
 
 	@Override
-	public void deleteDataByMinMaxIndex() {
+	public void delete() {
 		for (int i = minIndex; i <= maxIndex; i++) {
 			userDao.deleteData(i);
 		}
@@ -44,7 +44,7 @@ public class MYBATISProcessor extends Processor {
 	}
 
 	@Override
-	public void clearDB() {
+	public void truncate() {
 		userDao.truncateTable();
 	}
 

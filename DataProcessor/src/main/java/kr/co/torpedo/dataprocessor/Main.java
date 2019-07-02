@@ -1,35 +1,38 @@
 package kr.co.torpedo.dataprocessor;
 
+import java.io.File;
+
 import kr.co.torpedo.dataprocessor.config.ConfigReader;
-import kr.co.torpedo.dataprocessor.manager.FileManager;
 import kr.co.torpedo.dataprocessor.processor.JSONParser;
-import kr.co.torpedo.dataprocessor.processor.Processor;
-import kr.co.torpedo.dataprocessor.processor.ProcessorFactory;
+import kr.co.torpedo.dataprocessor.processor.UserRepository;
+import kr.co.torpedo.dataprocessor.processor.RepositoryFactory;
 
 public class Main {
 	public static void main(String[] args) {
 		ConfigReader configReader = new ConfigReader();
-		FileManager fileManager = new FileManager();
 		JSONParser jsonParser = new JSONParser();
-		fileManager.makeDataFile(configReader.getDatafilePath());
-		jsonParser.setLogFile(configReader.getLogFilePath());
+		jsonParser.setLogFile(getFile(configReader.getLogFilePath()));
+		jsonParser.setDataFile(getFile(configReader.getDatafilePath()));
 
-		Processor processor = ProcessorFactory.createProcessor(configReader.getProcessorType());
+		UserRepository processor = RepositoryFactory.createProcessor(configReader.getProcessorType());
 		processor.setConfigReader(configReader);
-		processor.setFileManager(fileManager);
 		processor.setJsonParser(jsonParser);
 
 		processor.initDB();
 		processor.readData();
-		processor.clearDB();
+		processor.truncate();
 		processor.insertDB();
 		processor.savedDataWriteLog();
 
 		processor.setIndexArray();
 		processor.setMinMaxIndex();
-		processor.changeDataByIndexArray();
-		processor.deleteDataByMinMaxIndex();
+		processor.update();
+		processor.delete();
 
 		processor.savedDataWriteLog();
+	}
+
+	public static File getFile(String path) {
+		return new File(path);
 	}
 }

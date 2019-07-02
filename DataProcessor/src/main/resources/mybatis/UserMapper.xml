@@ -28,7 +28,7 @@
 		insert into user values(#{id},#{first_name},#{last_name},#{email},#{gender},#{ip_address});
 	</insert>
 	
-	<update id="updateDB" parameterType="String email; int id" >
+	<update id="updateDB">
 		update user set email=#{email} where id=#{id};
 	</update>
 	

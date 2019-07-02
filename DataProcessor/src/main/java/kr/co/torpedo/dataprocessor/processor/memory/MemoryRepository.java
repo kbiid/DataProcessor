@@ -6,14 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.processor.Processor;
+import kr.co.torpedo.dataprocessor.processor.UserRepository;
 
-public class MemoryProcessor extends Processor {
-	public static final Logger invalidFileLogger = LoggerFactory.getLogger(MemoryProcessor.class);
+public class MemoryRepository extends UserRepository {
+	public static final Logger invalidFileLogger = LoggerFactory.getLogger(MemoryRepository.class);
 	private HashMap<Integer, User> userHashMap;
 
 	@Override
-	public void changeDataByIndexArray() {
+	public void update() {
 		for (int i = 0; i < indexArray.length; i++) {
 			if (userHashMap.containsKey(indexArray[i])) {
 				userHashMap.get(indexArray[i]).setEmail("aa@naver.com");
@@ -22,7 +22,7 @@ public class MemoryProcessor extends Processor {
 	}
 
 	@Override
-	public void deleteDataByMinMaxIndex() {
+	public void delete() {
 		for (int i = minIndex; i <= maxIndex; i++) {
 			if (userHashMap.containsKey(i)) {
 				userHashMap.remove(i);
@@ -39,7 +39,6 @@ public class MemoryProcessor extends Processor {
 	@Override
 	public void savedDataWriteLog() {
 		invalidFileLogger.info("MemoryProcessor saved data set to list start!");
-		userList.clear();
 
 		for (int i : userHashMap.keySet()) {
 			jsonParser.marshal(userHashMap.get(i));
@@ -47,7 +46,7 @@ public class MemoryProcessor extends Processor {
 	}
 
 	@Override
-	public void clearDB() {
+	public void truncate() {
 	}
 
 	@Override

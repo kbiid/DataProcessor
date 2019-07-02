@@ -2,6 +2,9 @@ package kr.co.torpedo.dataprocessor.processor.db.hibernate;
 
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -12,10 +15,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.processor.Processor;
+import kr.co.torpedo.dataprocessor.processor.UserRepository;
 
-public class HibernateProcessor extends Processor {
-	public static final Logger invalidFileLogger = LoggerFactory.getLogger(HibernateProcessor.class);
+public class HibernateRepository extends UserRepository {
+	public static final Logger invalidFileLogger = LoggerFactory.getLogger(HibernateRepository.class);
 	private SessionFactory sessionFactory;
 	private Session session;
 	private Transaction tx;
@@ -51,21 +54,22 @@ public class HibernateProcessor extends Processor {
 		tx.commit();
 	}
 
-	@SuppressWarnings("unchecked")
 	private void selectUserFromDB() {
 		invalidFileLogger.info("HieranteProcessor selecteData start!");
-		userList.clear();
 		session = sessionFactory.openSession();
 		session.beginTransaction();
 
-		List<User> list = (List<User>) session.createQuery("from user_tb").list();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+		criteriaQuery.from(User.class);
+		List<User> list = session.createQuery(criteriaQuery).getResultList();
 		for (User user : list) {
 			jsonParser.marshal(user);
 		}
 	}
 
 	@Override
-	public void changeDataByIndexArray() {
+	public void update() {
 		session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		User user;
@@ -78,7 +82,7 @@ public class HibernateProcessor extends Processor {
 	}
 
 	@Override
-	public void deleteDataByMinMaxIndex() {
+	public void delete() {
 		session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		User user;
@@ -102,7 +106,7 @@ public class HibernateProcessor extends Processor {
 	}
 
 	@Override
-	public void clearDB() {
+	public void truncate() {
 		truncateTable();
 	}
 

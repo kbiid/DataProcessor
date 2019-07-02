@@ -9,14 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.torpedo.dataprocessor.domain.User;
-import kr.co.torpedo.dataprocessor.processor.Processor;
+import kr.co.torpedo.dataprocessor.processor.UserRepository;
 
-public class JDBCProcessorWithCP extends Processor {
-	private static final Logger invalidFileLogger = LoggerFactory.getLogger(JDBCProcessorWithCP.class);
+public class JDBCRepositoryWithCP extends UserRepository {
+	private static final Logger invalidFileLogger = LoggerFactory.getLogger(JDBCRepositoryWithCP.class);
 	private Connection conn;
 	private String dbTableName;
 
-	public JDBCProcessorWithCP() {
+	public JDBCRepositoryWithCP() {
 		try {
 			conn = DBConnection.getConnection();
 		} catch (SQLException e) {
@@ -52,7 +52,6 @@ public class JDBCProcessorWithCP extends Processor {
 	}
 
 	private void selectAllUserAndWriteLog() {
-		userList.clear();
 		invalidFileLogger.info("JDBCProcessorWithCP select data start!");
 		String sql = "select * from " + dbTableName;
 		User user = null;
@@ -82,7 +81,7 @@ public class JDBCProcessorWithCP extends Processor {
 	}
 
 	@Override
-	public void changeDataByIndexArray() {
+	public void update() {
 		for (int i = 0; i < indexArray.length; i++) {
 			updateData(indexArray[i]);
 		}
@@ -94,13 +93,13 @@ public class JDBCProcessorWithCP extends Processor {
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, index);
 			pstmt.executeUpdate();
-		} catch (SQLException e1) {
-			invalidFileLogger.error("JDBCProcessor select data error" + e1);
+		} catch (SQLException e) {
+			invalidFileLogger.error("JDBCProcessor select data error" + e);
 		}
 	}
 
 	@Override
-	public void deleteDataByMinMaxIndex() {
+	public void delete() {
 		for (int i = minIndex; i <= maxIndex; i++) {
 			deleteData(i);
 		}
@@ -119,7 +118,7 @@ public class JDBCProcessorWithCP extends Processor {
 	}
 
 	@Override
-	public void clearDB() {
+	public void truncate() {
 		truncateTable();
 	}
 

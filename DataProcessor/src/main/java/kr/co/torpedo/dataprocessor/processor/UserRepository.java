@@ -66,7 +66,7 @@ public abstract class UserRepository {
 
 	public abstract void save(User user);
 
-	public abstract void savedDataWriteLog();
+	public abstract void writeLog();
 
 	public abstract void truncate();
 

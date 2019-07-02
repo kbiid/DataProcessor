@@ -100,7 +100,7 @@ public class HibernateRepository extends UserRepository {
 	}
 
 	@Override
-	public void savedDataWriteLog() {
+	public void writeLog() {
 		invalidFileLogger.info("HieranteProcessor setListSavedData method start!");
 		selectUserFromDB();
 	}

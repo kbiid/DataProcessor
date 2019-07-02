@@ -22,14 +22,14 @@ public class Main {
 		processor.readData();
 		processor.truncate();
 		processor.insertDB();
-		processor.savedDataWriteLog();
+		processor.writeLog();
 
 		processor.setIndexArray();
 		processor.setMinMaxIndex();
 		processor.update();
 		processor.delete();
 
-		processor.savedDataWriteLog();
+		processor.writeLog();
 	}
 
 	public static File getFile(String path) {

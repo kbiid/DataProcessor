@@ -35,7 +35,7 @@ public class MYBATISRepository extends UserRepository {
 	}
 
 	@Override
-	public void savedDataWriteLog() {
+	public void writeLog() {
 		invalidFileLogger.info("MTBATISProcessor setListSavedData start!");
 		ArrayList<User> list = userDao.selectUserList();
 		for (User user : list) {

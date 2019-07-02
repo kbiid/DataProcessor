@@ -37,7 +37,7 @@ public class MemoryRepository extends UserRepository {
 	}
 
 	@Override
-	public void savedDataWriteLog() {
+	public void writeLog() {
 		invalidFileLogger.info("MemoryProcessor saved data set to list start!");
 
 		for (int i : userHashMap.keySet()) {

@@ -125,7 +125,7 @@ public class JDBCRepository extends UserRepository {
 	}
 
 	@Override
-	public void savedDataWriteLog() {
+	public void writeLog() {
 		invalidFileLogger.info("JDBCProcessor set list for savedData");
 		try {
 			selectAllUserAndWriteLog();

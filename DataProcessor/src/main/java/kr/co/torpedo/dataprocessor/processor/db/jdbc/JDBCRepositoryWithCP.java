@@ -112,7 +112,7 @@ public class JDBCRepositoryWithCP extends UserRepository {
 	}
 
 	@Override
-	public void savedDataWriteLog() {
+	public void writeLog() {
 		invalidFileLogger.info("JDBCProcessorWithCP set list for savedData");
 		selectAllUserAndWriteLog();
 	}

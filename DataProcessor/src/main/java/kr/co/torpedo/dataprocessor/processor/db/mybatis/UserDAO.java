@@ -9,13 +9,13 @@ import kr.co.torpedo.dataprocessor.domain.User;
 
 @Mapper
 public interface UserDAO {
-	public ArrayList<User> selectUserList();
+	public ArrayList<User> selectAll();
 
-	public void truncateTable();
+	public void truncate();
 
-	public void insertUserToDB(User user);
+	public void insert(User user);
 
-	public void updateDB(@Param("email") String email, @Param("id") int id);
+	public void update(@Param("email") String email, @Param("id") int id);
 
-	public void deleteData(int id);
+	public void delete(int id);
 }

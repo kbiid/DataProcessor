@@ -17,27 +17,27 @@ public class MYBATISRepository extends UserRepository {
 	@Override
 	public void update() {
 		for (int i = 0; i < indexArray.length; i++) {
-			userDao.updateDB("aa@naver.com", indexArray[i]);
+			userDao.update("aa@naver.com", indexArray[i]);
 		}
 	}
 
 	@Override
 	public void delete() {
 		for (int i = minIndex; i <= maxIndex; i++) {
-			userDao.deleteData(i);
+			userDao.delete(i);
 		}
 	}
 
 	@Override
 	public void save(User user) {
 		invalidFileLogger.info("MTBATISProcessor saveData start!");
-		userDao.insertUserToDB(user);
+		userDao.insert(user);
 	}
 
 	@Override
 	public void writeLog() {
 		invalidFileLogger.info("MTBATISProcessor setListSavedData start!");
-		ArrayList<User> list = userDao.selectUserList();
+		ArrayList<User> list = userDao.selectAll();
 		for (User user : list) {
 			jsonParser.marshal(user);
 		}
@@ -45,7 +45,7 @@ public class MYBATISRepository extends UserRepository {
 
 	@Override
 	public void truncate() {
-		userDao.truncateTable();
+		userDao.truncate();
 	}
 
 	@Override

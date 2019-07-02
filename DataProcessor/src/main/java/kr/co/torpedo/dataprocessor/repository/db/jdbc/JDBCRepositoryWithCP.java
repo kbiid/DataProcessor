@@ -23,18 +23,35 @@ public class JDBCRepositoryWithCP extends UserRepository {
 		}
 	}
 
-	private void truncateTable() {
-		invalidFileLogger.info("JDBCProcessorWithCP truncateTable start!");
-		String sql = "TRUNCATE " + tableName;
+	@Override
+	public void update(int index) {
+		invalidFileLogger.info("JDBCProcessor update data start!");
+		String sql = "update " + tableName + " set email=? where id=?";
+
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setString(1, "aa@naver.com");
+			pstmt.setInt(2, index);
 			pstmt.executeUpdate();
-			conn.commit();
-		} catch (SQLException e) {
-			invalidFileLogger.error("JDBCProcessorWithCP truncateTable error: " + e);
+		} catch (SQLException e1) {
+			invalidFileLogger.error("JDBCProcessor select data error" + e1);
 		}
 	}
 
-	private void insertUserToDB(User user) {
+	@Override
+	public void delete(int index) {
+		invalidFileLogger.info("JDBCProcessor delete data start!");
+		String sql = "delete from " + tableName + " where id=?";
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setInt(1, index);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			invalidFileLogger.error("JDBCProcessor select data error" + e);
+		}
+	}
+
+	@Override
+	public void save(User user) {
+		invalidFileLogger.info("JDBCProcessorWithCP save data");
 		invalidFileLogger.info("JDBCProcessorWithCP insert data to table start!");
 		String sql = "insert into " + tableName + " values(?,?,?,?,?,?)";
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -50,7 +67,9 @@ public class JDBCRepositoryWithCP extends UserRepository {
 		}
 	}
 
-	private void selectAllUserAndWriteLog() {
+	@Override
+	public void writeLog() {
+		invalidFileLogger.info("JDBCProcessorWithCP set list for savedData");
 		invalidFileLogger.info("JDBCProcessorWithCP select data start!");
 		String sql = "select * from " + tableName;
 		User user = null;
@@ -66,54 +85,15 @@ public class JDBCRepositoryWithCP extends UserRepository {
 		}
 	}
 
-	private void updateData(int index) {
-		invalidFileLogger.info("JDBCProcessor update data start!");
-		String sql = "update " + tableName + " set email=? where id=?";
-
-		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pstmt.setString(1, "aa@naver.com");
-			pstmt.setInt(2, index);
-			pstmt.executeUpdate();
-		} catch (SQLException e1) {
-			invalidFileLogger.error("JDBCProcessor select data error" + e1);
-		}
-	}
-
-	@Override
-	public void update(int index) {
-		updateData(index);
-	}
-
-	private void deleteData(int index) {
-		invalidFileLogger.info("JDBCProcessor delete data start!");
-		String sql = "delete from " + tableName + " where id=?";
-		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pstmt.setInt(1, index);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			invalidFileLogger.error("JDBCProcessor select data error" + e);
-		}
-	}
-
-	@Override
-	public void delete(int index) {
-		deleteData(index);
-	}
-
-	@Override
-	public void save(User user) {
-		invalidFileLogger.info("JDBCProcessorWithCP save data");
-		insertUserToDB(user);
-	}
-
-	@Override
-	public void writeLog() {
-		invalidFileLogger.info("JDBCProcessorWithCP set list for savedData");
-		selectAllUserAndWriteLog();
-	}
-
 	@Override
 	public void truncate() {
-		truncateTable();
+		invalidFileLogger.info("JDBCProcessorWithCP truncateTable start!");
+		String sql = "TRUNCATE " + tableName;
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			invalidFileLogger.error("JDBCProcessorWithCP truncateTable error: " + e);
+		}
 	}
 }

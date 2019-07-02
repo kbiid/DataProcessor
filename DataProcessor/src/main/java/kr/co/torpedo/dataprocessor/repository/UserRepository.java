@@ -51,10 +51,6 @@ public abstract class UserRepository {
 		}
 	}
 
-	public void readData() {
-		jsonParser.unmarshal();
-	}
-
 	public abstract void update(int index);
 
 	public abstract void delete(int index);

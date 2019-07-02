@@ -10,10 +10,15 @@ public class RepositoryHandler {
 	private ConfigReader configReader;
 	private UserRepository userRepository;
 	private int[] indexArray;
-	private int minIndex, maxIndex;
+	private int minIndex, maxIndex, threadCount;
+	private JSONParser jsonParser;
 
 	public UserRepository getUserRepository() {
 		return userRepository;
+	}
+
+	public void setJSONParser(JSONParser jsonParser) {
+		this.jsonParser = jsonParser;
 	}
 
 	public void setDBData() {
@@ -29,6 +34,10 @@ public class RepositoryHandler {
 
 	public void setUserRepository(UserRepository userRepository) {
 		this.userRepository = userRepository;
+	}
+
+	public void setThreadCount() {
+		threadCount = configReader.getThreadCount();
 	}
 
 	public void setMinMaxIndex() {
@@ -62,8 +71,7 @@ public class RepositoryHandler {
 	}
 
 	public void readData() {
-		userRepository.readData();
-
+		jsonParser.unmarshal();
 	}
 
 	public void truncate() {

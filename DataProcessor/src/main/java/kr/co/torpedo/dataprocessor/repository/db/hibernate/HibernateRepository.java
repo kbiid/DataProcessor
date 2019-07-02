@@ -50,15 +50,37 @@ public class HibernateRepository extends UserRepository {
 		session.close();
 	}
 
-	private void truncateTable() {
-		invalidFileLogger.info("HieranteProcessor truncateTable start!");
+	@Override
+	public void update(int index) {
 		session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.createQuery("delete from User").executeUpdate();
+		User user = (User) session.get(User.class, index);
+		user.setEmail("aa@naver.com");
+		session.update(user);
 		tx.commit();
+		session.close();
 	}
 
-	private void selectUserFromDB() {
+	@Override
+	public void delete(int index) {
+		session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		User user = (User) session.get(User.class, index);
+		session.delete(user);
+		tx.commit();
+		session.close();
+	}
+
+	@Override
+	public void save(User user) {
+		invalidFileLogger.info("HieranteProcessor saveData method start!");
+		session.save(user);
+		session.close();
+	}
+
+	@Override
+	public void writeLog() {
+		invalidFileLogger.info("HieranteProcessor setListSavedData method start!");
 		invalidFileLogger.info("HieranteProcessor selecteData start!");
 		session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -70,41 +92,16 @@ public class HibernateRepository extends UserRepository {
 		for (User user : list) {
 			jsonParser.marshal(user);
 		}
-	}
-
-	@Override
-	public void update(int index) {
-		session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		User user = (User) session.get(User.class, index);
-		user.setEmail("aa@naver.com");
-		session.update(user);
-		tx.commit();
-	}
-
-	@Override
-	public void delete(int index) {
-		session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		User user = (User) session.get(User.class, index);
-		session.delete(user);
-		tx.commit();
-	}
-
-	@Override
-	public void save(User user) {
-		invalidFileLogger.info("HieranteProcessor saveData method start!");
-		session.save(user);
-	}
-
-	@Override
-	public void writeLog() {
-		invalidFileLogger.info("HieranteProcessor setListSavedData method start!");
-		selectUserFromDB();
+		session.close();
 	}
 
 	@Override
 	public void truncate() {
-		truncateTable();
+		invalidFileLogger.info("HieranteProcessor truncateTable start!");
+		session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.createQuery("delete from User").executeUpdate();
+		tx.commit();
+		session.close();
 	}
 }

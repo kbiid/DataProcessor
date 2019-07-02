@@ -103,4 +103,12 @@ public class ConfigReader {
 		}
 		return properties.get("db.tablename").toString();
 	}
+	
+	public int getThreadCount() {
+		if (properties == null || !properties.containsKey("thread.count")) {
+			invalidFileLogger.error("properties가 null이거나 thread.count키가 없습니다.");
+			throw new NullPointerException("properties가 null이거나 thread.count키가 없습니다.");
+		}
+		return Integer.parseInt(properties.get("thread.count").toString());
+	}
 }

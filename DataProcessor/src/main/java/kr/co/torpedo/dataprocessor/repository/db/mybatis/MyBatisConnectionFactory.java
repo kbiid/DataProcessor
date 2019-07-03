@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class MyBatisConnectionFactory {
-	private static final Logger invalidFileLogger = LoggerFactory.getLogger(UserRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserRepository.class);
 	private static SqlSessionFactory sqlSessionFactory;
 
 	static {
@@ -24,7 +24,7 @@ public class MyBatisConnectionFactory {
 				sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
 			}
 		} catch (IOException e) {
-			invalidFileLogger.error("MyBatisConnectionFactory error : " + e);
+			logger.error("MyBatisConnectionFactory error : " + e);
 		}
 	}
 

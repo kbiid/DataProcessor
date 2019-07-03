@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
 import kr.co.torpedo.dataprocessor.domain.User;
 
 public abstract class UserRepository {
-	private static final Logger invalidFileLogger = LoggerFactory.getLogger(UserRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserRepository.class);
 	protected String url, id, pwd, tableName;
 	private JsonArray array;
 
@@ -34,7 +34,7 @@ public abstract class UserRepository {
 	}
 
 	public void insert() {
-		invalidFileLogger.info("insert start!");
+		logger.info("insert start!");
 		User user;
 
 		for (int i = 0; i < array.size(); i++) {
@@ -52,7 +52,7 @@ public abstract class UserRepository {
 	}
 
 	public void insert(int min, int max) {
-		invalidFileLogger.info("insert start!");
+		logger.info("insert start!");
 		User user;
 
 		for (int i = min; i < max; i++) {

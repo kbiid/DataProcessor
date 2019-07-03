@@ -10,7 +10,7 @@ import kr.co.torpedo.dataprocessor.repository.JSONParser;
 import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class MemoryRepository extends UserRepository {
-	private static final Logger invalidFileLogger = LoggerFactory.getLogger(MemoryRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(MemoryRepository.class);
 	private HashMap<Integer, User> userHashMap;
 
 	public MemoryRepository() {
@@ -19,7 +19,7 @@ public class MemoryRepository extends UserRepository {
 
 	@Override
 	public void update(int key) {
-		invalidFileLogger.info("MemoryProcessor update start!");
+		logger.info("MemoryProcessor update start!");
 		if (userHashMap.containsKey(key)) {
 			userHashMap.get(key).setEmail("aa@naver.com");
 		}
@@ -27,7 +27,7 @@ public class MemoryRepository extends UserRepository {
 
 	@Override
 	public void delete(int key) {
-		invalidFileLogger.info("MemoryProcessor delete start!");
+		logger.info("MemoryProcessor delete start!");
 		if (userHashMap.containsKey(key)) {
 			userHashMap.remove(key);
 		}
@@ -35,13 +35,13 @@ public class MemoryRepository extends UserRepository {
 
 	@Override
 	public void save(User user) {
-		invalidFileLogger.info("MemoryProcessor save start!");
+		logger.info("MemoryProcessor save start!");
 		userHashMap.put(user.getId(), user);
 	}
 
 	@Override
 	public void writeLog(JSONParser jsonParser) {
-		invalidFileLogger.info("MemoryProcessor writeLog start!");
+		logger.info("MemoryProcessor writeLog start!");
 		for (int i : userHashMap.keySet()) {
 			jsonParser.marshal(userHashMap.get(i));
 		}
@@ -49,7 +49,7 @@ public class MemoryRepository extends UserRepository {
 
 	@Override
 	public void truncate() {
-		invalidFileLogger.info("MemoryProcessor truncate start!");
+		logger.info("MemoryProcessor truncate start!");
 		userHashMap.clear();
 	}
 

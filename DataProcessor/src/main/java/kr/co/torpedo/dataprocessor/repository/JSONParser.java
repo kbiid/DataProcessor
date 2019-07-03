@@ -19,7 +19,7 @@ import com.google.gson.JsonSyntaxException;
 import kr.co.torpedo.dataprocessor.domain.User;
 
 public class JSONParser {
-	public static final Logger invalidFileLogger = LoggerFactory.getLogger(JSONParser.class);
+	public static final Logger logger = LoggerFactory.getLogger(JSONParser.class);
 	private JsonArray jsonArray;
 	private File logFile, dataFile;
 
@@ -44,7 +44,7 @@ public class JSONParser {
 	}
 
 	public void marshal(User user) {
-		invalidFileLogger.info("JSONSerializer marshal");
+		logger.info("JSONSerializer marshal");
 		JsonObject jObj = null;
 		jObj = new JsonObject();
 		jObj.addProperty("id", user.getId());
@@ -63,19 +63,19 @@ public class JSONParser {
 			bw.write(str);
 			bw.write("\r\n");
 		} catch (IOException e) {
-			invalidFileLogger.error("JSONSerializer IOException : " + e);
+			logger.error("JSONSerializer IOException : " + e);
 			e.printStackTrace();
 		}
 	}
 
 	public void unmarshal() {
-		invalidFileLogger.info("JSONSerializer unmarshal");
+		logger.info("JSONSerializer unmarshal");
 		JsonParser parser = new JsonParser();
 		try {
 			Object obj = parser.parse(new FileReader(dataFile));
 			jsonArray = (JsonArray) obj;
 		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
-			invalidFileLogger.error("JSONDeSerializer Exception : " + e);
+			logger.error("JSONDeSerializer Exception : " + e);
 		}
 	}
 }

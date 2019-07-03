@@ -1,12 +1,8 @@
 package kr.co.torpedo.dataprocessor.repository;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import kr.co.torpedo.dataprocessor.config.ConfigReader;
 
 public class RepositoryHandler {
-	private static final Logger invalidFileLogger = LoggerFactory.getLogger(RepositoryHandler.class);
 	private ConfigReader configReader;
 	private UserRepository userRepository;
 	private int[] indexArray;
@@ -35,6 +31,10 @@ public class RepositoryHandler {
 
 	public void setJsonArrayToRepository() {
 		userRepository.setArray(jsonParser.getJsonArray());
+	}
+
+	public int getThreadCount() {
+		return threadCount;
 	}
 
 	public void setDBData() {

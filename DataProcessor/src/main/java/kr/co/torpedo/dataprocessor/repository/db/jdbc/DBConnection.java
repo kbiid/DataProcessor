@@ -17,7 +17,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class DBConnection {
-	private static final Logger invalidFileLogger = LoggerFactory.getLogger(UserRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserRepository.class);
 	private static DataSource dataSource;
 	private static final String DRIVER_NAME;
 	private static final String URL;
@@ -29,7 +29,7 @@ public class DBConnection {
 		try (FileInputStream inputStream = new FileInputStream(System.getProperty("config.properties"))) {
 			p = new PropertyResourceBundle(inputStream);
 		} catch (IOException e) {
-			invalidFileLogger.error("DBConnection error : " + e);
+			logger.error("DBConnection error : " + e);
 		}
 		DRIVER_NAME = "org.mariadb.jdbc.Driver";
 		URL = p.getString("db.url");
@@ -47,7 +47,7 @@ public class DBConnection {
 		try {
 			cdps.setDriverClass(DRIVER_NAME);
 		} catch (PropertyVetoException e) {
-			invalidFileLogger.error("DBConnection error : " + e);
+			logger.error("DBConnection error : " + e);
 		}
 		cdps.setJdbcUrl(URL);
 		cdps.setUser(USER_NAME);

@@ -11,14 +11,12 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.JsonArray;
-
 import kr.co.torpedo.dataprocessor.domain.User;
 import kr.co.torpedo.dataprocessor.repository.JSONParser;
 import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class HibernateRepository extends UserRepository {
-	private static final Logger invalidFileLogger = LoggerFactory.getLogger(HibernateRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(HibernateRepository.class);
 	private SessionFactory sessionFactory;
 	private Session session;
 	private Transaction tx;
@@ -29,7 +27,7 @@ public class HibernateRepository extends UserRepository {
 
 	@Override
 	public void insert() {
-		invalidFileLogger.info("HieranteProcessor insert start!");
+		logger.info("HieranteProcessor insert start!");
 		session = sessionFactory.openSession();
 		tx = session.beginTransaction();
 		super.insert();
@@ -38,8 +36,18 @@ public class HibernateRepository extends UserRepository {
 	}
 
 	@Override
+	public void insert(int min, int max) {
+		logger.info("HieranteProcessor insert start!");
+		session = sessionFactory.openSession();
+		tx = session.beginTransaction();
+		super.insert(min, max);
+		tx.commit();
+		session.close();
+	}
+
+	@Override
 	public void update(int key) {
-		invalidFileLogger.info("HieranteProcessor update start!");
+		logger.info("HieranteProcessor update start!");
 		session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		User user = (User) session.get(User.class, key);
@@ -51,7 +59,7 @@ public class HibernateRepository extends UserRepository {
 
 	@Override
 	public void delete(int key) {
-		invalidFileLogger.info("HieranteProcessor delete start!");
+		logger.info("HieranteProcessor delete start!");
 		session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		User user = (User) session.get(User.class, key);
@@ -62,13 +70,13 @@ public class HibernateRepository extends UserRepository {
 
 	@Override
 	public void save(User user) {
-		invalidFileLogger.info("HieranteProcessor save start!");
+		logger.info("HieranteProcessor save start!");
 		session.save(user);
 	}
 
 	@Override
 	public void writeLog(JSONParser jsonParser) {
-		invalidFileLogger.info("HieranteProcessor writeLog start!");
+		logger.info("HieranteProcessor writeLog start!");
 		session = sessionFactory.openSession();
 		session.beginTransaction();
 
@@ -84,7 +92,7 @@ public class HibernateRepository extends UserRepository {
 
 	@Override
 	public void truncate() {
-		invalidFileLogger.info("HieranteProcessor truncate start!");
+		logger.info("HieranteProcessor truncate start!");
 		session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		session.createQuery("delete from User").executeUpdate();

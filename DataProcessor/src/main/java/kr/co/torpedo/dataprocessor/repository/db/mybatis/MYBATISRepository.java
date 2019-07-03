@@ -11,7 +11,7 @@ import kr.co.torpedo.dataprocessor.repository.JSONParser;
 import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class MYBATISRepository extends UserRepository {
-	private static final Logger invalidFileLogger = LoggerFactory.getLogger(MYBATISRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(MYBATISRepository.class);
 	private SqlSession sqlSession;
 	private UserDAO userDao;
 
@@ -22,25 +22,25 @@ public class MYBATISRepository extends UserRepository {
 
 	@Override
 	public void update(int key) {
-		invalidFileLogger.info("MTBATISProcessor update start!");
+		logger.info("MTBATISProcessor update start!");
 		userDao.update("aa@naver.com", key);
 	}
 
 	@Override
 	public void delete(int key) {
-		invalidFileLogger.info("MTBATISProcessor delete start!");
+		logger.info("MTBATISProcessor delete start!");
 		userDao.delete(key);
 	}
 
 	@Override
 	public void save(User user) {
-		invalidFileLogger.info("MTBATISProcessor save start!");
+		logger.info("MTBATISProcessor save start!");
 		userDao.insert(user);
 	}
 
 	@Override
 	public void writeLog(JSONParser jsonParser) {
-		invalidFileLogger.info("MTBATISProcessor writeLog start!");
+		logger.info("MTBATISProcessor writeLog start!");
 		ArrayList<User> list = userDao.selectAll();
 		for (User user : list) {
 			jsonParser.marshal(user);
@@ -49,7 +49,7 @@ public class MYBATISRepository extends UserRepository {
 
 	@Override
 	public void truncate() {
-		invalidFileLogger.info("MTBATISProcessor truncate start!");
+		logger.info("MTBATISProcessor truncate start!");
 		userDao.truncate();
 	}
 

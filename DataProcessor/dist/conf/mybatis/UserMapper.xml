@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.torpedo.dataprocessor.processor.db.mybatis.UserDAO">
+	<resultMap type="User" id="result">
+		<result property="id" column="id"/>
+		<result property="first_name" column="first_name"/>
+		<result property="last_name" column="last_name"/>
+		<result property="email" column="email"/>
+		<result property="gender" column="gender"/>
+		<result property="ip_address" column="ip_address"/>
+	</resultMap>
+
+	<select id="selectUserList" resultMap="result">
+		select * from user_tb;
+	</select>
+	
+	<delete id="truncateTable">
+		TRUNCATE user_tb;
+	</delete>
+	
+	<insert id="insertUserToDB" parameterType="User">
+		insert into user_tb values(#{id},#{first_name},#{last_name},#{email},#{gender},#{ip_address});
+	</insert>
+</mapper>

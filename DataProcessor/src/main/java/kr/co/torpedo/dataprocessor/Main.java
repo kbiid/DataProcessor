@@ -22,9 +22,10 @@ public class Main {
 		handler.setJSONParser(jsonParser);
 
 		handler.setDBData();
-		handler.readData();
+		handler.setJsonArrayToRepository();
+		handler.getJsonParser().unmarshal();
 		handler.getUserRepository().truncate();
-		handler.insert();
+		handler.getUserRepository().insert();
 		handler.writeLog();
 
 		handler.setIndexArray();
@@ -33,6 +34,7 @@ public class Main {
 		handler.delete();
 
 		handler.writeLog();
+		handler.getUserRepository().close();
 	}
 
 	public static File getFile(String path) {

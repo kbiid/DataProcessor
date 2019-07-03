@@ -29,7 +29,6 @@ public class JDBCRepository extends UserRepository {
 		try (Connection con = DriverManager.getConnection(url, id, pwd);
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			Class.forName(className);
-
 			pstmt.setString(1, "aa@naver.com");
 			pstmt.setInt(2, key);
 			pstmt.executeUpdate();
@@ -105,5 +104,9 @@ public class JDBCRepository extends UserRepository {
 		} catch (SQLException | ClassNotFoundException e) {
 			invalidFileLogger.error("JDBCProcessor truncate error: " + e);
 		}
+	}
+
+	@Override
+	public void close() {
 	}
 }

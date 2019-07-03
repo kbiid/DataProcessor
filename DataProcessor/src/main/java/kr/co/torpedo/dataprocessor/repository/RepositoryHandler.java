@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import kr.co.torpedo.dataprocessor.config.ConfigReader;
 
 public class RepositoryHandler {
-	public static final Logger invalidFileLogger = LoggerFactory.getLogger(RepositoryHandler.class);
+	private static final Logger invalidFileLogger = LoggerFactory.getLogger(RepositoryHandler.class);
 	private ConfigReader configReader;
 	private UserRepository userRepository;
 	private int[] indexArray;
@@ -21,11 +21,8 @@ public class RepositoryHandler {
 		this.jsonParser = jsonParser;
 	}
 
-	public void setDBData() {
-		userRepository.setUrl(configReader.getDbUrl());
-		userRepository.setId(configReader.getDbUserId());
-		userRepository.setPwd(configReader.getDbPw());
-		userRepository.setTableName(configReader.getDbTableName());
+	public JSONParser getJsonParser() {
+		return jsonParser;
 	}
 
 	public void setConfigReader(ConfigReader configReader) {
@@ -34,6 +31,17 @@ public class RepositoryHandler {
 
 	public void setUserRepository(UserRepository userRepository) {
 		this.userRepository = userRepository;
+	}
+
+	public void setJsonArrayToRepository() {
+		userRepository.setArray(jsonParser.getJsonArray());
+	}
+
+	public void setDBData() {
+		userRepository.setUrl(configReader.getDbUrl());
+		userRepository.setId(configReader.getDbUserId());
+		userRepository.setPwd(configReader.getDbPw());
+		userRepository.setTableName(configReader.getDbTableName());
 	}
 
 	public void setThreadCount() {
@@ -64,14 +72,6 @@ public class RepositoryHandler {
 		for (int i = minIndex; i <= maxIndex; i++) {
 			userRepository.delete(i);
 		}
-	}
-
-	public void insert() {
-		userRepository.insert(jsonParser.getJsonArray());
-	}
-
-	public void readData() {
-		jsonParser.unmarshal();
 	}
 
 	public void writeLog() {

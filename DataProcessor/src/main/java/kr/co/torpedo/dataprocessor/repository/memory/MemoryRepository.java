@@ -10,7 +10,7 @@ import kr.co.torpedo.dataprocessor.repository.JSONParser;
 import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class MemoryRepository extends UserRepository {
-	public static final Logger invalidFileLogger = LoggerFactory.getLogger(MemoryRepository.class);
+	private static final Logger invalidFileLogger = LoggerFactory.getLogger(MemoryRepository.class);
 	private HashMap<Integer, User> userHashMap;
 
 	public MemoryRepository() {
@@ -51,5 +51,9 @@ public class MemoryRepository extends UserRepository {
 	public void truncate() {
 		invalidFileLogger.info("MemoryProcessor truncate start!");
 		userHashMap.clear();
+	}
+
+	@Override
+	public void close() {
 	}
 }

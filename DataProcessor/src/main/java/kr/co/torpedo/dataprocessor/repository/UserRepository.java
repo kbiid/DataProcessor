@@ -9,8 +9,13 @@ import com.google.gson.JsonObject;
 import kr.co.torpedo.dataprocessor.domain.User;
 
 public abstract class UserRepository {
-	public static final Logger invalidFileLogger = LoggerFactory.getLogger(UserRepository.class);
+	private static final Logger invalidFileLogger = LoggerFactory.getLogger(UserRepository.class);
 	protected String url, id, pwd, tableName;
+	private JsonArray array;
+
+	public void setArray(JsonArray array) {
+		this.array = array;
+	}
 
 	public void setUrl(String url) {
 		this.url = url;
@@ -28,7 +33,7 @@ public abstract class UserRepository {
 		this.tableName = tableName;
 	}
 
-	public void insert(JsonArray array) {
+	public void insert() {
 		invalidFileLogger.info("insert start!");
 		User user;
 
@@ -46,13 +51,34 @@ public abstract class UserRepository {
 		}
 	}
 
+	public void insert(int min, int max) {
+		invalidFileLogger.info("insert start!");
+		User user;
+
+		for (int i = min; i < max; i++) {
+			JsonObject jobj = (JsonObject) array.get(i);
+			int id = Integer.parseInt(jobj.get("id").toString());
+			String firstName = jobj.get("first_name").toString();
+			String lastName = jobj.get("last_name").toString();
+			String email = jobj.get("email").toString();
+			String gender = jobj.get("gender").toString();
+			String ipAddress = jobj.get("ip_address").toString();
+			user = new User(id, firstName, lastName, email, gender, ipAddress);
+			synchronized (this) {
+				save(user);
+			}
+		}
+	}
+
+	public abstract void save(User user);
+
 	public abstract void update(int key);
 
 	public abstract void delete(int key);
 
-	public abstract void save(User user);
-
 	public abstract void writeLog(JSONParser jsonParser);
 
 	public abstract void truncate();
+
+	public abstract void close();
 }

@@ -12,14 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import kr.co.torpedo.dataprocessor.domain.User;
 import kr.co.torpedo.dataprocessor.repository.JSONParser;
 import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class HibernateRepository extends UserRepository {
-	public static final Logger invalidFileLogger = LoggerFactory.getLogger(HibernateRepository.class);
+	private static final Logger invalidFileLogger = LoggerFactory.getLogger(HibernateRepository.class);
 	private SessionFactory sessionFactory;
 	private Session session;
 	private Transaction tx;
@@ -29,24 +28,11 @@ public class HibernateRepository extends UserRepository {
 	}
 
 	@Override
-	public void insert(JsonArray array) {
+	public void insert() {
 		invalidFileLogger.info("HieranteProcessor insert start!");
 		session = sessionFactory.openSession();
-		User user;
-
 		tx = session.beginTransaction();
-		for (int i = 0; i < array.size(); i++) {
-			JsonObject jobj = (JsonObject) array.get(i);
-			int id = Integer.parseInt(jobj.get("id").toString());
-			String firstName = jobj.get("first_name").toString();
-			String lastName = jobj.get("last_name").toString();
-			String email = jobj.get("email").toString();
-			String gender = jobj.get("gender").toString();
-			String ipAddress = jobj.get("ip_address").toString();
-			user = new User(id, firstName, lastName, email, gender, ipAddress);
-
-			session.save(user);
-		}
+		super.insert();
 		tx.commit();
 		session.close();
 	}
@@ -104,5 +90,12 @@ public class HibernateRepository extends UserRepository {
 		session.createQuery("delete from User").executeUpdate();
 		tx.commit();
 		session.close();
+	}
+
+	@Override
+	public void close() {
+		if (sessionFactory != null) {
+			sessionFactory.close();
+		}
 	}
 }

@@ -9,11 +9,15 @@ import java.util.PropertyResourceBundle;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class DBConnection {
+	private static final Logger invalidFileLogger = LoggerFactory.getLogger(UserRepository.class);
 	private static DataSource dataSource;
 	private static final String DRIVER_NAME;
 	private static final String URL;
@@ -25,7 +29,7 @@ public class DBConnection {
 		try (FileInputStream inputStream = new FileInputStream(System.getProperty("config.properties"))) {
 			p = new PropertyResourceBundle(inputStream);
 		} catch (IOException e) {
-			e.printStackTrace();
+			invalidFileLogger.error("DBConnection error : " + e);
 		}
 		DRIVER_NAME = "org.mariadb.jdbc.Driver";
 		URL = p.getString("db.url");
@@ -43,8 +47,7 @@ public class DBConnection {
 		try {
 			cdps.setDriverClass(DRIVER_NAME);
 		} catch (PropertyVetoException e) {
-			UserRepository.invalidFileLogger.error("DBConnection error : " + e);
-			e.printStackTrace();
+			invalidFileLogger.error("DBConnection error : " + e);
 		}
 		cdps.setJdbcUrl(URL);
 		cdps.setUser(USER_NAME);

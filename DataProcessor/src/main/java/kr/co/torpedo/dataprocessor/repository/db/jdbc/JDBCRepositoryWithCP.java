@@ -95,4 +95,15 @@ public class JDBCRepositoryWithCP extends UserRepository {
 			invalidFileLogger.error("JDBCProcessorWithCP truncate error: " + e);
 		}
 	}
+
+	@Override
+	public void close() {
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				invalidFileLogger.error("JDBCProcessorWithCP close error: " + e);
+			}
+		}
+	}
 }

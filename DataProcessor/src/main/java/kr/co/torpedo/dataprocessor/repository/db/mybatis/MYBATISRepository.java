@@ -11,7 +11,7 @@ import kr.co.torpedo.dataprocessor.repository.JSONParser;
 import kr.co.torpedo.dataprocessor.repository.UserRepository;
 
 public class MYBATISRepository extends UserRepository {
-	public static final Logger invalidFileLogger = LoggerFactory.getLogger(MYBATISRepository.class);
+	private static final Logger invalidFileLogger = LoggerFactory.getLogger(MYBATISRepository.class);
 	private SqlSession sqlSession;
 	private UserDAO userDao;
 
@@ -51,5 +51,12 @@ public class MYBATISRepository extends UserRepository {
 	public void truncate() {
 		invalidFileLogger.info("MTBATISProcessor truncate start!");
 		userDao.truncate();
+	}
+
+	@Override
+	public void close() {
+		if (sqlSession != null) {
+			sqlSession.close();
+		}
 	}
 }

@@ -25,13 +25,13 @@ public class JDBCRepositoryWithCP extends UserRepository {
 	}
 
 	@Override
-	public void update(int index) {
+	public void update(int key) {
 		invalidFileLogger.info("JDBCProcessor update start!");
 		String sql = "update " + tableName + " set email=? where id=?";
 
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setString(1, "aa@naver.com");
-			pstmt.setInt(2, index);
+			pstmt.setInt(2, key);
 			pstmt.executeUpdate();
 		} catch (SQLException e1) {
 			invalidFileLogger.error("JDBCProcessor update error" + e1);
@@ -39,11 +39,11 @@ public class JDBCRepositoryWithCP extends UserRepository {
 	}
 
 	@Override
-	public void delete(int index) {
+	public void delete(int key) {
 		invalidFileLogger.info("JDBCProcessor delete start!");
 		String sql = "delete from " + tableName + " where id=?";
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pstmt.setInt(1, index);
+			pstmt.setInt(1, key);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			invalidFileLogger.error("JDBCProcessor delete error" + e);

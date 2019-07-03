@@ -21,15 +21,15 @@ public class MYBATISRepository extends UserRepository {
 	}
 
 	@Override
-	public void update(int index) {
+	public void update(int key) {
 		invalidFileLogger.info("MTBATISProcessor update start!");
-		userDao.update("aa@naver.com", index);
+		userDao.update("aa@naver.com", key);
 	}
 
 	@Override
-	public void delete(int index) {
+	public void delete(int key) {
 		invalidFileLogger.info("MTBATISProcessor delete start!");
-		userDao.delete(index);
+		userDao.delete(key);
 	}
 
 	@Override

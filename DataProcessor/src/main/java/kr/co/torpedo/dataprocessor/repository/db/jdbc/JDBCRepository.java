@@ -22,7 +22,7 @@ public class JDBCRepository extends UserRepository {
 	}
 
 	@Override
-	public void update(int index) {
+	public void update(int key) {
 		invalidFileLogger.info("JDBCProcessor update start!");
 		String sql = "update " + tableName + " set email=? where id=?";
 
@@ -31,7 +31,7 @@ public class JDBCRepository extends UserRepository {
 			Class.forName(className);
 
 			pstmt.setString(1, "aa@naver.com");
-			pstmt.setInt(2, index);
+			pstmt.setInt(2, key);
 			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
 			invalidFileLogger.error("JDBCProcessor update error" + e);
@@ -39,13 +39,13 @@ public class JDBCRepository extends UserRepository {
 	}
 
 	@Override
-	public void delete(int index) {
+	public void delete(int key) {
 		invalidFileLogger.info("JDBCProcessor delete start!");
 		String sql = "delete from " + tableName + " where id=?";
 		try (Connection con = DriverManager.getConnection(url, id, pwd);
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			Class.forName(className);
-			pstmt.setInt(1, index);
+			pstmt.setInt(1, key);
 			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
 			invalidFileLogger.error("JDBCProcessor delete error" + e);

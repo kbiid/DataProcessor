@@ -46,9 +46,9 @@ public abstract class UserRepository {
 		}
 	}
 
-	public abstract void update(int index);
+	public abstract void update(int key);
 
-	public abstract void delete(int index);
+	public abstract void delete(int key);
 
 	public abstract void save(User user);
 

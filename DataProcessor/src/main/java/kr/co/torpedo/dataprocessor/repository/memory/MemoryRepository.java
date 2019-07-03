@@ -18,18 +18,18 @@ public class MemoryRepository extends UserRepository {
 	}
 
 	@Override
-	public void update(int index) {
+	public void update(int key) {
 		invalidFileLogger.info("MemoryProcessor update start!");
-		if (userHashMap.containsKey(index)) {
-			userHashMap.get(index).setEmail("aa@naver.com");
+		if (userHashMap.containsKey(key)) {
+			userHashMap.get(key).setEmail("aa@naver.com");
 		}
 	}
 
 	@Override
-	public void delete(int index) {
+	public void delete(int key) {
 		invalidFileLogger.info("MemoryProcessor delete start!");
-		if (userHashMap.containsKey(index)) {
-			userHashMap.remove(index);
+		if (userHashMap.containsKey(key)) {
+			userHashMap.remove(key);
 		}
 	}
 

@@ -52,11 +52,11 @@ public class HibernateRepository extends UserRepository {
 	}
 
 	@Override
-	public void update(int index) {
+	public void update(int key) {
 		invalidFileLogger.info("HieranteProcessor update start!");
 		session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		User user = (User) session.get(User.class, index);
+		User user = (User) session.get(User.class, key);
 		user.setEmail("aa@naver.com");
 		session.update(user);
 		tx.commit();
@@ -64,11 +64,11 @@ public class HibernateRepository extends UserRepository {
 	}
 
 	@Override
-	public void delete(int index) {
+	public void delete(int key) {
 		invalidFileLogger.info("HieranteProcessor delete start!");
 		session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		User user = (User) session.get(User.class, index);
+		User user = (User) session.get(User.class, key);
 		session.delete(user);
 		tx.commit();
 		session.close();

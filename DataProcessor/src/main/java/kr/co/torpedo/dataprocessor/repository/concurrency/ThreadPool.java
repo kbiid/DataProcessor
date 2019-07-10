@@ -26,7 +26,7 @@ public class ThreadPool {
 		exService = Executors.newFixedThreadPool(threadCount);
 		for (int i = 1; i <= threadCount; i++) {
 			max = getMaxIndex(i, threadCount, processDataCount);
-			min = max - processDataCount + 1;
+			min = max - processDataCount;
 
 			rt = new RunnableThread();
 			rt.setRepository(handler.getUserRepository());
@@ -42,7 +42,8 @@ public class ThreadPool {
 	}
 
 	private int getMaxIndex(int index, int threadCount, int processDataCount) {
-		if (threadCount % 2 != 0 && threadCount != 1) {
+		if (threadCount % 2 != 0 && threadCount != 1
+				&& (handler.getJsonParser().getJsonArray().size() % threadCount) != 0) {
 			if (index == threadCount) {
 				return ((index * processDataCount) + 1);
 			}

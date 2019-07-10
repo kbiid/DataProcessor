@@ -1,5 +1,7 @@
 package kr.co.torpedo.dataprocessor.repository;
 
+import java.sql.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +47,9 @@ public abstract class UserRepository {
 			String email = jobj.get("email").toString();
 			String gender = jobj.get("gender").toString();
 			String ipAddress = jobj.get("ip_address").toString();
-			user = new User(id, firstName, lastName, email, gender, ipAddress);
+			String date = jobj.get("date").toString();
+			date = date.replace("/", "-");
+			user = new User(id, firstName, lastName, email, gender, ipAddress, Date.valueOf(date));
 
 			save(user);
 		}
@@ -63,7 +67,13 @@ public abstract class UserRepository {
 			String email = jobj.get("email").toString();
 			String gender = jobj.get("gender").toString();
 			String ipAddress = jobj.get("ip_address").toString();
-			user = new User(id, firstName, lastName, email, gender, ipAddress);
+			String date = jobj.get("date").toString();
+			date = date.replace("/", "-");
+			date = date.replace("\"", "");
+			System.out.println(date);
+			Date d = Date.valueOf(date);
+			System.out.println(d);
+			user = new User(id, firstName, lastName, email, gender, ipAddress, Date.valueOf(date));
 			synchronized (this) {
 				save(user);
 			}

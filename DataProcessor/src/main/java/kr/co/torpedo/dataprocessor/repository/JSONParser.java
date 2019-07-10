@@ -48,11 +48,11 @@ public class JSONParser {
 		JsonObject jObj = null;
 		jObj = new JsonObject();
 		jObj.addProperty("id", user.getId());
-		jObj.addProperty("first_name", user.getFirst_name());
-		jObj.addProperty("last_name", user.getLast_name());
+		jObj.addProperty("first_name", user.getFirstName());
+		jObj.addProperty("last_name", user.getLastName());
 		jObj.addProperty("email", user.getEmail());
 		jObj.addProperty("gender", user.getGender());
-		jObj.addProperty("ip_address", user.getIp_address());
+		jObj.addProperty("ip_address", user.getIpAddress());
 		writeEmployee(jObj.toString());
 	}
 

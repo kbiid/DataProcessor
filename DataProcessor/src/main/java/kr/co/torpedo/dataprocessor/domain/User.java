@@ -1,6 +1,7 @@
 package kr.co.torpedo.dataprocessor.domain;
 
 import javax.persistence.Column;
+import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -21,17 +22,20 @@ public class User {
 	private String gender;
 	@Column(name = "ip_address", columnDefinition = "varchar(200)")
 	private String ip_address;
+	@Column(name = "date", columnDefinition = "date")
+	private Date date;
 
 	public User() {
 	}
 	
-	public User(int id, String first_name, String last_name, String email, String gender, String ip_address) {
+	public User(int id, String firstName, String lastName, String email, String gender, String ipAddress, Date date) {
 		this.id = id;
-		this.first_name = first_name;
-		this.last_name = last_name;
+		this.first_name = firstName;
+		this.last_name = lastName;
 		this.email = email;
 		this.gender = gender;
-		this.ip_address = ip_address;
+		this.ip_address = ipAddress;
+		this.date = date;
 	}
 
 	public int getId() {
@@ -42,20 +46,20 @@ public class User {
 		this.id = id;
 	}
 
-	public String getFirst_name() {
+	public String getFirstName() {
 		return first_name;
 	}
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setFirstName(String firstName) {
+		this.first_name = firstName;
 	}
 
-	public String getLast_name() {
+	public String getLastName() {
 		return last_name;
 	}
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLastName(String lastName) {
+		this.last_name = lastName;
 	}
 
 	public String getEmail() {
@@ -74,11 +78,19 @@ public class User {
 		this.gender = gender;
 	}
 
-	public String getIp_address() {
+	public String getIpAddress() {
 		return ip_address;
 	}
 
-	public void setIp_address(String ip_address) {
-		this.ip_address = ip_address;
+	public void setIpAddress(String ipAddress) {
+		this.ip_address = ipAddress;
+	}
+	
+	public Date getDate() {
+		return date;
+	}
+	
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }

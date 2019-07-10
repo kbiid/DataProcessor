@@ -1,6 +1,7 @@
 package kr.co.torpedo.dataprocessor.repository.db.jdbc;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -59,11 +60,11 @@ public class JDBCRepository extends UserRepository {
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			Class.forName(className);
 			pstmt.setInt(1, user.getId());
-			pstmt.setString(2, user.getFirst_name());
-			pstmt.setString(3, user.getLast_name());
+			pstmt.setString(2, user.getFirstName());
+			pstmt.setString(3, user.getLastName());
 			pstmt.setString(4, user.getEmail());
 			pstmt.setString(5, user.getGender());
-			pstmt.setString(6, user.getIp_address());
+			pstmt.setString(6, user.getIpAddress());
 			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
 			logger.error("JDBCProcessor save error: " + e);
@@ -83,7 +84,8 @@ public class JDBCRepository extends UserRepository {
 			Class.forName(className);
 			while (rs.next()) {
 				user = new User(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
-						rs.getString("email"), rs.getString("gender"), rs.getString("ip_address"));
+						rs.getString("email"), rs.getString("gender"), rs.getString("ip_address"),
+						Date.valueOf(rs.getString("date")));
 				jsonParser.marshal(user);
 			}
 		} catch (SQLException | ClassNotFoundException e) {

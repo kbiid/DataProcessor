@@ -35,12 +35,12 @@ public class Main {
 //		handler.getUserRepository().insert();
 		handler.writeLog();
 
-		handler.setIndexArray();
-		handler.setMinMaxIndex();
-		handler.update();
-		handler.delete();
+//		handler.setIndexArray();
+//		handler.setMinMaxIndex();
+//		handler.update();
+//		handler.delete();
 
-		handler.writeLog();
+//		handler.writeLog();
 		handler.getUserRepository().close();
 		end = System.currentTimeMillis();
 		System.out.println(" 소요 시간 : " + (end - start) / 1000.0);

@@ -14,6 +14,7 @@
 		<result property="email" column="email"/>
 		<result property="gender" column="gender"/>
 		<result property="ip_address" column="ip_address"/>
+		<result property="date" column="date"/>
 	</resultMap>
 
 	<select id="selectAll" resultMap="result">
@@ -25,7 +26,7 @@
 	</delete>
 	
 	<insert id="insert" parameterType="User">
-		insert into user values(#{id},#{first_name},#{last_name},#{email},#{gender},#{ip_address});
+		insert into user values(#{id},#{first_name},#{last_name},#{email},#{gender},#{ip_address},#{date});
 	</insert>
 	
 	<update id="update">

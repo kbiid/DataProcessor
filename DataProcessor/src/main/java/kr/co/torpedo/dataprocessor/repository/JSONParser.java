@@ -17,9 +17,10 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 import kr.co.torpedo.dataprocessor.domain.User;
+import kr.co.torpedo.dataprocessor.repository.db.jdbc.JDBCRepository;
 
 public class JSONParser {
-	public static final Logger logger = LoggerFactory.getLogger(JSONParser.class);
+	private static final Logger logger = LoggerFactory.getLogger(JSONParser.class);
 	private JsonArray jsonArray;
 	private File logFile, dataFile;
 
@@ -53,6 +54,7 @@ public class JSONParser {
 		jObj.addProperty("email", user.getEmail());
 		jObj.addProperty("gender", user.getGender());
 		jObj.addProperty("ip_address", user.getIpAddress());
+		jObj.addProperty("date", user.getIpAddress());
 		writeEmployee(jObj.toString());
 	}
 

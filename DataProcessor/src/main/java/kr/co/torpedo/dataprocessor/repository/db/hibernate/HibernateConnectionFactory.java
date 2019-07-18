@@ -14,7 +14,8 @@ public class HibernateConnectionFactory {
 	private static ServiceRegistry serviceRegistry;
 
 	static {
-		String path = "src/main/resources/hibernate/hibernate.cfg.xml";
+//		String path = "src/main/resources/hibernate/hibernate.cfg.xml";
+		String path = "/home/kbiid/Dataprocessor/dist/conf/hibernate/hibernate.cfg.xml";
 		Configuration configuration = new Configuration().configure(new File(path));
 		configuration.addAnnotatedClass(User.class);
 		serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();

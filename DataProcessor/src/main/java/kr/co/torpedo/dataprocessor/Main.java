@@ -27,12 +27,12 @@ public class Main {
 
 		handler.setThreadCount();
 		handler.setDBData();
-		handler.setJsonArrayToRepository();
-		pool.setHandler(handler);
+//		pool.setHandler(handler);
 		handler.getJsonParser().unmarshal();
+		handler.setJsonArrayToRepository();
 		handler.getUserRepository().truncate();
-		pool.start();
-//		handler.getUserRepository().insert();
+//		pool.start();
+		handler.getUserRepository().insert();
 		handler.writeLog();
 
 //		handler.setIndexArray();

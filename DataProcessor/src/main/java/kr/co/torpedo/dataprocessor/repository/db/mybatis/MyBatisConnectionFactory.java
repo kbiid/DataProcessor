@@ -1,5 +1,7 @@
 package kr.co.torpedo.dataprocessor.repository.db.mybatis;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 
@@ -17,9 +19,11 @@ public class MyBatisConnectionFactory {
 
 	static {
 		try {
-			String path = "main/resources/mybatis/config.xml";
-			Reader reader = Resources.getResourceAsReader(path);
-
+			String path = "/home/kbiid/Dataprocessor/dist/conf/mybatis/config.xml";
+//			String path = "main/resources/mybatis/config.xml";
+			File file = new File(path);
+			Reader reader = new FileReader(file);
+//			Reader reader = Resources.getResourceAsReader(path);
 			if (sqlSessionFactory == null) {
 				sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
 			}

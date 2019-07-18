@@ -22,7 +22,7 @@ public class RepositoryFactory {
 			processor = new MYBATISRepository();
 			break;
 
-		case "hiberante":
+		case "hibernate":
 			processor = new HibernateRepository();
 			break;
 

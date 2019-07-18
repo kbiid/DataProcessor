@@ -43,11 +43,17 @@ public abstract class UserRepository {
 			JsonObject jobj = (JsonObject) array.get(i);
 			int id = Integer.parseInt(jobj.get("id").toString());
 			String firstName = jobj.get("first_name").toString();
+			firstName = changeDoubleQuote(firstName);
 			String lastName = jobj.get("last_name").toString();
+			lastName = changeDoubleQuote(lastName);
 			String email = jobj.get("email").toString();
+			email = changeDoubleQuote(email);
 			String gender = jobj.get("gender").toString();
+			gender = changeDoubleQuote(gender);
 			String ipAddress = jobj.get("ip_address").toString();
+			ipAddress = changeDoubleQuote(ipAddress);
 			String date = jobj.get("date").toString();
+			date = changeDoubleQuote(date);
 			date = date.replace("/", "-");
 			user = new User(id, firstName, lastName, email, gender, ipAddress, Date.valueOf(date));
 
@@ -63,21 +69,27 @@ public abstract class UserRepository {
 			JsonObject jobj = (JsonObject) array.get(i);
 			int id = Integer.parseInt(jobj.get("id").toString());
 			String firstName = jobj.get("first_name").toString();
+			firstName = changeDoubleQuote(firstName);
 			String lastName = jobj.get("last_name").toString();
+			lastName = changeDoubleQuote(lastName);
 			String email = jobj.get("email").toString();
+			email = changeDoubleQuote(email);
 			String gender = jobj.get("gender").toString();
+			gender = changeDoubleQuote(gender);
 			String ipAddress = jobj.get("ip_address").toString();
+			ipAddress = changeDoubleQuote(ipAddress);
 			String date = jobj.get("date").toString();
+			date = changeDoubleQuote(date);
 			date = date.replace("/", "-");
-			date = date.replace("\"", "");
-			System.out.println(date);
-			Date d = Date.valueOf(date);
-			System.out.println(d);
 			user = new User(id, firstName, lastName, email, gender, ipAddress, Date.valueOf(date));
 			synchronized (this) {
 				save(user);
 			}
 		}
+	}
+
+	public String changeDoubleQuote(String str) {
+		return str = str.replace("\"", "");
 	}
 
 	public abstract void save(User user);

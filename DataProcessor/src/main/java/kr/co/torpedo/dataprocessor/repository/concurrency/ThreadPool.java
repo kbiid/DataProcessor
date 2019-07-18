@@ -47,7 +47,7 @@ public class ThreadPool {
 			if (index == threadCount) {
 				return ((index * processDataCount) + 1);
 			}
-		}
+		} 
 		return (index * processDataCount);
 	}
 }

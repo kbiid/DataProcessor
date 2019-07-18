@@ -55,7 +55,7 @@ public class JDBCRepository extends UserRepository {
 	@Override
 	public void save(User user) {
 		logger.info("JDBCProcessor save start!");
-		String sql = "insert into " + tableName + " values(?,?,?,?,?,?)";
+		String sql = "insert into " + tableName + " values(?,?,?,?,?,?,?)";
 		try (Connection con = DriverManager.getConnection(url, id, pwd);
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			Class.forName(className);
@@ -65,6 +65,7 @@ public class JDBCRepository extends UserRepository {
 			pstmt.setString(4, user.getEmail());
 			pstmt.setString(5, user.getGender());
 			pstmt.setString(6, user.getIpAddress());
+			pstmt.setDate(7, user.getDate());
 			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
 			logger.error("JDBCProcessor save error: " + e);

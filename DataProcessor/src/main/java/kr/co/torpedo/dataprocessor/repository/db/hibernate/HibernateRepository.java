@@ -32,40 +32,38 @@ public class HibernateRepository extends UserRepository {
 		tx = session.beginTransaction();
 		super.insert();
 		tx.commit();
-		session.close();
 	}
 
 	@Override
 	public void insert(int min, int max) {
 		logger.info("HieranteProcessor insert start!");
-		session = sessionFactory.openSession();
-		tx = session.beginTransaction();
+		Session s = sessionFactory.openSession();
+		tx = s.beginTransaction();
 		super.insert(min, max);
-		tx.commit();
-		session.close();
+		if (tx.isActive()) {
+			tx.commit();
+		}
 	}
 
 	@Override
 	public void update(int key) {
 		logger.info("HieranteProcessor update start!");
 		session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
+		tx = session.beginTransaction();
 		User user = (User) session.get(User.class, key);
 		user.setEmail("aa@naver.com");
 		session.update(user);
 		tx.commit();
-		session.close();
 	}
 
 	@Override
 	public void delete(int key) {
 		logger.info("HieranteProcessor delete start!");
 		session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
+		tx = session.beginTransaction();
 		User user = (User) session.get(User.class, key);
 		session.delete(user);
 		tx.commit();
-		session.close();
 	}
 
 	@Override
@@ -87,17 +85,15 @@ public class HibernateRepository extends UserRepository {
 		for (User user : list) {
 			jsonParser.marshal(user);
 		}
-		session.close();
 	}
 
 	@Override
 	public void truncate() {
 		logger.info("HieranteProcessor truncate start!");
 		session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
+		tx = session.beginTransaction();
 		session.createQuery("delete from User").executeUpdate();
 		tx.commit();
-		session.close();
 	}
 
 	@Override

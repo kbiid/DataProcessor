@@ -54,7 +54,7 @@ public class JDBCRepositoryWithCP extends UserRepository {
 	@Override
 	public void save(User user) {
 		logger.info("JDBCProcessorWithCP save start!");
-		String sql = "insert into " + tableName + " values(?,?,?,?,?,?)";
+		String sql = "insert into " + tableName + " values(?,?,?,?,?,?,?)";
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, user.getId());
 			pstmt.setString(2, user.getFirstName());
@@ -62,6 +62,7 @@ public class JDBCRepositoryWithCP extends UserRepository {
 			pstmt.setString(4, user.getEmail());
 			pstmt.setString(5, user.getGender());
 			pstmt.setString(6, user.getIpAddress());
+			pstmt.setDate(7, user.getDate());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			logger.error("JDBCProcessorWithCP save error: " + e);

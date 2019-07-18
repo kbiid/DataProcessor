@@ -20,7 +20,7 @@ public class ConfigReader {
 	private void loadProp() {
 //		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.properties")
 //		FileInputStream inputStream = new FileInputStream(System.getProperty("config.properties"))
-		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.properties")) {
+		try (FileInputStream inputStream = new FileInputStream(System.getProperty("config.properties"))) {
 			properties.load(inputStream);
 		} catch (IOException e) {
 			invalidFileLogger.error("error : " + e);
@@ -106,7 +106,7 @@ public class ConfigReader {
 		}
 		return properties.get("db.tablename").toString();
 	}
-	
+
 	public int getThreadCount() {
 		if (properties == null || !properties.containsKey("thread.count")) {
 			invalidFileLogger.error("properties가 null이거나 thread.count키가 없습니다.");
